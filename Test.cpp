@@ -107,6 +107,17 @@ static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr)
 	cout << "--------" << endl;
 }//----- Fin de RechercheAvancee
 
+static void load()
+{
+
+}
+
+static void save()
+{
+
+}
+
+
 static void Menu(ListeTrajets & catalogue) 
 // Algorithme :
 {
@@ -123,8 +134,14 @@ static void Menu(ListeTrajets & catalogue)
 	while (action != 5
 			&& (action == 1 || action == 2 || action == 3 || action == 4)) {
 		switch (action) {
+
+		case 1:{
+			//load infos from file
+			load();
+			break;
+		}
 		//TS
-		case 1: {
+		case 2: {
 
 			char depart[1024];
 			char arrivee[1024];
@@ -151,7 +168,7 @@ static void Menu(ListeTrajets & catalogue)
 
 			//TC
 
-		case 2: {
+		case 3: {
 
 			ListeTrajets * lt = new ListeTrajets;
 
@@ -206,13 +223,13 @@ static void Menu(ListeTrajets & catalogue)
 		}
 
 			//catalogue
-		case 3: {
+		case 4: {
 			catalogue.Afficher();
 			break;
 		}
 
 			//search
-		case 4: {
+		case 5: {
 			//appel m�thode de recherche
 			char depart[1024];
 			char arrivee[1024];
@@ -226,17 +243,23 @@ static void Menu(ListeTrajets & catalogue)
 
 			break;
 		}
-
-		case 5:
+		case 6:{
+			//sauvegarder
+			save();
+			break;
+		}
+		case 7:
 			//stopper l'exécution
 			break;
 		}
 		cout << "Choisissez une option: " << endl;
-		cout << "1. Ajouter Trajet Simple " << endl;
-		cout << "2. Ajouter Trajet Compose " << endl;
-		cout << "3. Afficher le catalogue des trajets " << endl;
-		cout << "4. Rechercher un parcours " << endl;
-		cout << "5. Sortir" << endl;
+		cout << "1. Charger des trajets depuis un fichier " << endl;
+		cout << "2. Ajouter Trajet Simple " << endl;
+		cout << "3. Ajouter Trajet Compose " << endl;
+		cout << "4. Afficher le catalogue des trajets " << endl;
+		cout << "5. Rechercher un parcours " << endl;
+		cout << "6. Sauvegarder des trajets dans un fichier" << endl;
+		cout << "7. Sortir" << endl;
 		cin >> action;
 	}//----- Fin de Menu
 
