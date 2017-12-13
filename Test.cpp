@@ -27,10 +27,11 @@ using namespace std;
 
 //------------------------------------------------------ Fonctions privées
 
-static void RechercheSimple(ListeTrajets & catalogue, const char * dep,const char * arr) 
+static void RechercheSimple(ListeTrajets & catalogue, const char * dep,
+		const char * arr)
 // Algorithme :
 // cherche dans le catalogue les trajets qui ont la ville de départ = param2 et ville d'arrivée = param3
-{
+		{
 	bool trouve = false;
 	for (unsigned int i = 0; i < catalogue.Taille(); i++) {
 		const char * depart = catalogue.getTrajet(i)->Depart();
@@ -42,11 +43,11 @@ static void RechercheSimple(ListeTrajets & catalogue, const char * dep,const cha
 	}
 	if (!trouve)
 		cout << "Il n'y a pas de trajet qui corresponde !" << endl;
-}//----- Fin de RechercheSimple
+} //----- Fin de RechercheSimple
 
-static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr) 
+static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 // Algorithme :
-	{
+		{
 	ListeTrajets * intermede = new ListeTrajets;
 	ListeTrajets * result = new ListeTrajets;
 
@@ -60,14 +61,12 @@ static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr)
 	while (intermede->Taille() > 0) {
 
 		bool retrait = false;
-		for (unsigned int i = 0; i < intermede->Taille(); i++) 
-		{
+		for (unsigned int i = 0; i < intermede->Taille(); i++) {
 			if (retrait)
 				i = 0;
 			retrait = false;
 			//regarder si arrivee matche demande si oui => result
-			if (strcmp(arr, (intermede->getTrajet(i))->Arrivee()) == 0) 
-			{
+			if (strcmp(arr, (intermede->getTrajet(i))->Arrivee()) == 0) {
 				result->Ajouter(intermede->getTrajet(i));
 				intermede->Retirer(i);
 				retrait = true;
@@ -103,37 +102,89 @@ static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr)
 
 	}
 	cout << "---------" << endl;
-	cout << "Trajets possibles :"<<endl;
+	cout << "Trajets possibles :" << endl;
 	cout << "---------" << endl;
 	result->Afficher();
 	cout << "--------" << endl;
-}//----- Fin de RechercheAvancee
+} //----- Fin de RechercheAvancee
 
-static void read(ListeTrajets & catalogue);
+static void read(ListeTrajets & catalogue, String choice, ifstream is) {
+	String ligne;
+	switch (choice)
+	{
+	case "all": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
 
-static void load(ListeTrajets & catalogue)
-{
+		}
+		break;
+	}
+	case "TS": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	case "TC": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	case "ville": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	case "intervalle": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	}
+
+}
+
+static void load(ListeTrajets & catalogue) {
 	ifstream is;
 
-	cout << "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: " << endl;
+	cout
+			<< "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: "
+			<< endl;
 	String filename;
 	cin >> filename;
-	if(filename == "exit" || filename == "exit ") return ;
+	if (filename == "exit" || filename == "exit ")
+		return;
 	is = new ifstream(filename);
 	//check if exists
 	is.open(filename);
-	while(!is.open()/*stat (filename, &buffer) != 0*/){
+	while (!is.open()/*stat (filename, &buffer) != 0*/) {
 		//demander si souhaite ou mettre une option de sortie
-		cout << "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): " << endl;
+		cout
+				<< "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): "
+				<< endl;
 		cin >> filename;
-		if(filename == "exit" || filename == "exit ") return ;
+		if (filename == "exit" || filename == "exit ")
+			return;
 		is.open(filename);
 	}
 	cout << "Veuillez choisir une option: " << endl;
 	cout << "1. Charger tous les trajets " << endl;
 	cout << "1. Charger uniquement les Trajets Simples " << endl;
 	cout << "2. Charger uniquement les Trajets Composes " << endl;
-	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée " << endl;
+	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée "
+			<< endl;
 	//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
 	cout << "4. Charger seulement une sélection de trajets " << endl;
 	cout << "5. Sortir" << endl;
@@ -142,50 +193,46 @@ static void load(ListeTrajets & catalogue)
 	int action;
 	cin >> action;
 
-	stringstream ss;
+	while ()
 
-	while()
-	switch(action)
-	{
-	case 1:{
-		//load infos from file
-		read("all");
-		break;
-	}
-	case 2:{
-		//load infos from file
-		read("TC");
-		break;
-	}
-	case 3:{
-		//load infos from file
-		read("TS");
-		break;
-	}
-	case 4:{
-		//load infos from file
-		read();
-		break;
-	}
-	case 5:{
-		//load infos from file
-		;
-		break;
-	}
+		switch (action) {
+		case 1: {
+			//load infos from file
+			read(catalogue, "all", is);
+			break;
+		}
+		case 2: {
+			//load infos from file
+			read(catalogue, "TS", is);
+			break;
+		}
+		case 3: {
+			//load infos from file
+			read(catalogue, "TC", is);
+			break;
+		}
+		case 4: {
+			//load infos from file
+			read(catalogue, "ville", is);
+			break;
+		}
+		case 5: {
+			//load infos from file
+			read(catalogue, "intervalle", is);
+			break;
+		}
 
-	}
+		}
 
 }
 
-static void save(ListeTrajets & catalogue)
-{
+static void save(ListeTrajets & catalogue) {
 
 }
 
-
-static void Menu(ListeTrajets & catalogue) 
+static void Menu(ListeTrajets & catalogue)
 // Algorithme :
-{
+		{
 	cout << "Veuillez choisir une option: " << endl;
 	cout << "1. Ajouter Trajet Simple " << endl;
 	cout << "2. Ajouter Trajet Compose " << endl;
@@ -200,12 +247,12 @@ static void Menu(ListeTrajets & catalogue)
 			&& (action == 1 || action == 2 || action == 3 || action == 4)) {
 		switch (action) {
 
-		case 1:{
+		case 1: {
 			//load infos from file
 			load();
 			break;
 		}
-		//TS
+			//TS
 		case 2: {
 
 			char depart[1024];
@@ -217,7 +264,9 @@ static void Menu(ListeTrajets & catalogue)
 			cout << "Ville d'arrivee ?" << endl;
 			cin >> arrivee;
 			while (strcmp(depart, arrivee) == 0) {
-				cout<< "Veuillez ressaisir les villes de depart et d'arrivee de votre trajet"<< endl;
+				cout
+						<< "Veuillez ressaisir les villes de depart et d'arrivee de votre trajet"
+						<< endl;
 				cout << "Ville de depart ?" << endl;
 				cin >> depart;
 				cout << "Ville d'arrivee ?" << endl;
@@ -308,7 +357,7 @@ static void Menu(ListeTrajets & catalogue)
 
 			break;
 		}
-		case 6:{
+		case 6: {
 			//sauvegarder
 			save(catalogue);
 			break;
@@ -326,7 +375,7 @@ static void Menu(ListeTrajets & catalogue)
 		cout << "6. Sauvegarder des trajets dans un fichier" << endl;
 		cout << "7. Sortir" << endl;
 		cin >> action;
-	}//----- Fin de Menu
+	} //----- Fin de Menu
 
 }
 
@@ -337,4 +386,4 @@ int main()
 	Menu(*catalogue);
 	delete catalogue;
 	return 0;
-}//----- Fin de main
+} //----- Fin de main
