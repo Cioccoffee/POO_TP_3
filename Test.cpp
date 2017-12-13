@@ -110,29 +110,46 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 
 static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 	String ligne;
+	String word;
+	int nb;
+	//int nbTS;
+	//int nbTC;
 	switch (choice)
 	{
 	case "all": {
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
+			ss >> word;
 
 
 		}
 		break;
 	}
 	case "TS": {
+		is.getline(ligne);
+		stringstream ss(ligne);
+		ss >> nb;
+		if(nb == 0) break;
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
+			ss >> word;
 
 		}
 		break;
 	}
 	case "TC": {
+		is.getline(ligne);
+		is.getline(ligne);
+		stringstream ss(ligne);
+		ss >> nb;
+		if(nb == 0) break;
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
+			ss >> nb;
+
 
 		}
 		break;
