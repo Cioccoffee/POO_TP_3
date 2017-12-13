@@ -194,6 +194,7 @@ static void save(ListeTrajets & catalogue)
 		}
 		os.open(filename);
 
+		int nbOption = 0;
 
 		cout << "Veuillez choisir une option: " << endl;
 		cout << "1. Charger tous les trajets " << endl;
@@ -202,6 +203,17 @@ static void save(ListeTrajets & catalogue)
 		cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée " << endl;
 		cout << "4. Charger seulement une sélection de trajets " << endl;
 		cout << "5. Sortir" << endl;
+
+
+		// cin avec stringstream
+		switch (nbOption) {
+		case 1
+		}
+
+}
+
+static void readCatalogue ()
+{
 
 }
 
