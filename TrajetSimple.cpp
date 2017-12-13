@@ -49,6 +49,12 @@ const char * TrajetSimple::Transport() const
 	return moyenTransport;
 } //----- Fin de Methode
 
+
+String TrajetSimple:: Type() const
+{
+	return "TS";
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

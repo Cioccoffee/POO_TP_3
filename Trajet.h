@@ -9,6 +9,7 @@
 //---------- Interface de la classe <Trajet> (fichier Xxx.h) ----------------
 #if ! defined ( Trajet_H )
 #define Trajet_H
+#include <cstring>
 
 //--------------------------------------------------- Interfaces utilisées
 //#include "ListeTrajets.h"
@@ -60,6 +61,7 @@ public:
 	// Contrat :
 	//
 	//
+	virtual String Type() const;
 
 	virtual ~Trajet();
 	// Mode d'emploi :

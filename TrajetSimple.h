@@ -79,6 +79,8 @@ public:
 	//
 	//
 
+	String Type() const;
+
 	virtual ~TrajetSimple();
 	// Mode d'emploi :
 	//
