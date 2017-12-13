@@ -18,6 +18,7 @@ using namespace std;
 #include "Test.h"
 #include <cstring>
 #include <fstream>
+#include <sys/stat.h>
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -110,17 +111,25 @@ static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr)
 	cout << "--------" << endl;
 }//----- Fin de RechercheAvancee
 
-static void load()
+static void read(ListeTrajets & catalogue);
+
+static void load(ListeTrajets & catalogue)
 {
 	ifstream is;
-	cout << "Veuillez saisir le nom du fichier à charger: " << endl;
+
+	cout << "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: " << endl;
 	String filename;
 	cin >> filename;
+	if(filename == "exit" || filename == "exit ") return ;
+	is = new ifstream(filename);
 	//check if exists
-	while(){
+	is.open(filename);
+	while(!is.open()/*stat (filename, &buffer) != 0*/){
 		//demander si souhaite ou mettre une option de sortie
-		cout << "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger: " << endl;
+		cout << "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): " << endl;
 		cin >> filename;
+		if(filename == "exit" || filename == "exit ") return ;
+		is.open(filename);
 	}
 	cout << "Veuillez choisir une option: " << endl;
 	cout << "1. Charger tous les trajets " << endl;
@@ -131,10 +140,46 @@ static void load()
 	cout << "4. Charger seulement une sélection de trajets " << endl;
 	cout << "5. Sortir" << endl;
 
+	//demander si on veut append ou escraser
+	int action;
+	cin >> action;
+
+	stringstream ss;
+
+	while()
+	switch(action)
+	{
+	case 1:{
+		//load infos from file
+		read("all");
+		break;
+	}
+	case 2:{
+		//load infos from file
+		read("TC");
+		break;
+	}
+	case 3:{
+		//load infos from file
+		read("TS");
+		break;
+	}
+	case 4:{
+		//load infos from file
+		read();
+		break;
+	}
+	case 5:{
+		//load infos from file
+		;
+		break;
+	}
+
+	}
 
 }
 
-static void save()
+static void save(ListeTrajets & catalogue)
 {
 	ofstream os;
 	Sring rs = "oui";
@@ -288,7 +333,7 @@ static void Menu(ListeTrajets & catalogue)
 		}
 		case 6:{
 			//sauvegarder
-			save();
+			save(catalogue);
 			break;
 		}
 		case 7:
