@@ -240,7 +240,10 @@ static void load(ListeTrajets & catalogue) {
 			break;
 		}
 
-		}
+}
+
+static void readCatalogue ()
+{
 
 }
 
