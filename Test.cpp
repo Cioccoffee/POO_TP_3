@@ -17,6 +17,7 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "Test.h"
 #include <cstring>
+#include <fstream>
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -111,11 +112,13 @@ static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr)
 
 static void load()
 {
+	ifstream is;
 	cout << "Veuillez saisir le nom du fichier à charger: " << endl;
 	String filename;
 	cin >> filename;
 	//check if exists
 	while(){
+		//demander si souhaite ou mettre une option de sortie
 		cout << "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger: " << endl;
 		cin >> filename;
 	}
@@ -124,8 +127,10 @@ static void load()
 	cout << "1. Charger uniquement les Trajets Simples " << endl;
 	cout << "2. Charger uniquement les Trajets Composes " << endl;
 	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée " << endl;
+	//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
 	cout << "4. Charger seulement une sélection de trajets " << endl;
 	cout << "5. Sortir" << endl;
+
 
 }
 
