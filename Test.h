@@ -59,14 +59,21 @@ static void RechercheAvancee(ListeTrajets * catalogue, char * dep, char * arr);
 // Contrat :
 //
 
-static void load();
+static void read(ListeTrajets & catalogue);
 // Mode d'emploi :
 //
 //
 // Contrat :
 //
 
-static void save();
+static void load(ListeTrajets & catalogue);
+// Mode d'emploi :
+//
+//
+// Contrat :
+//
+
+static void save(ListeTrajets & catalogue);
 // Mode d'emploi :
 //
 //
