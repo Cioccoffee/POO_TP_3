@@ -109,6 +109,21 @@ static void RechercheAvancee(ListeTrajets & catalogue,char * dep, char * arr)
 
 static void load()
 {
+	cout << "Veuillez saisir le nom du fichier à charger: " << endl;
+	String filename;
+	cin >> filename;
+	//check if exists
+	while(){
+		cout << "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger: " << endl;
+		cin >> filename;
+	}
+	cout << "Veuillez choisir une option: " << endl;
+	cout << "1. Charger tous les trajets " << endl;
+	cout << "1. Charger uniquement les Trajets Simples " << endl;
+	cout << "2. Charger uniquement les Trajets Composes " << endl;
+	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée " << endl;
+	cout << "4. Charger seulement une sélection de trajets " << endl;
+	cout << "5. Sortir" << endl;
 
 }
 
