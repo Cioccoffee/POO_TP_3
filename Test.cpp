@@ -11,6 +11,8 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <fstream>
+#include <stringstream>
 
 //------------------------------------------------------ Include personnel
 #include "Test.h"
@@ -129,6 +131,27 @@ static void load()
 
 static void save()
 {
+	ofstream os;
+	Sring rs = "oui";
+
+	cout << "Veuillez saisir le nom du fichier dans lequel vous souhaitez sauvegarder: " << endl;
+		String filename;
+		cin >> filename;
+		//check if exists
+		while(!os.is_open()){
+			cout << "Le fichier n'a pas été trouvé, veuillez-vous saisir à nouveau le nom du fichier à charger? " << endl;
+			cin >> filename;
+		}
+		os.open(filename);
+
+
+		cout << "Veuillez choisir une option: " << endl;
+		cout << "1. Charger tous les trajets " << endl;
+		cout << "1. Charger uniquement les Trajets Simples " << endl;
+		cout << "2. Charger uniquement les Trajets Composes " << endl;
+		cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée " << endl;
+		cout << "4. Charger seulement une sélection de trajets " << endl;
+		cout << "5. Sortir" << endl;
 
 }
 

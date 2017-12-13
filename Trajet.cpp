@@ -44,6 +44,11 @@ const char * Trajet::Arrivee() const
 	return villeArrivee;
 } //----- Fin de Méthode
 
+String Trajet:: Type() const
+{
+	return "";
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
