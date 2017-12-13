@@ -59,6 +59,20 @@ static void RechercheAvancee(ListeTrajets * catalogue, char * dep, char * arr);
 // Contrat :
 //
 
+static void load();
+// Mode d'emploi :
+//
+//
+// Contrat :
+//
+
+static void save();
+// Mode d'emploi :
+//
+//
+// Contrat :
+//
+
 int main();
 // Mode d'emploi :
 // création du catalogue et appel des méthodes décrites ci-dessus
