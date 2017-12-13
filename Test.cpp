@@ -117,6 +117,7 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			is.getline(ligne);
 			stringstream ss(ligne);
 
+
 		}
 		break;
 	}
