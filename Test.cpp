@@ -111,16 +111,34 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 	String ligne;
 	String word;
+	String type;
+	String depart;
+	String arrivee;
+	String transport;
 	int nb;
 	//int nbTS;
 	//int nbTC;
 	switch (choice)
 	{
 	case "all": {
+		is.getline(ligne);
+		is.getline(ligne);
+		//on skip les deux lignes de metadata
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
-			ss >> word;
+			ss >> type;
+			if(type == "TS")
+			{
+				ss >> depart;
+				ss >> arrivee;
+				ss >> transport;
+				catalogue->Ajouter(new TrajetSimple(depart,arrivee,transport));
+			}
+			else if(type == "TC")
+			{
+
+			}
 
 
 		}
@@ -131,10 +149,19 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 		stringstream ss(ligne);
 		ss >> nb;
 		if(nb == 0) break;
+		is.getline(ligne); //skip metadata about TCis.getline(ligne);
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
-			ss >> word;
+			ss >> type;
+			if(type == "TS")
+			{
+				ss >> depart;
+				ss >> arrivee;
+				ss >> transport;
+				catalogue->Ajouter(new TrajetSimple(depart,arrivee,transport));
+				//do I have to explicitely cast from string to char * ??????????????
+			}
 
 		}
 		break;
@@ -148,13 +175,18 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
-			ss >> nb;
+			ss >> type;
+			if(type == "TC")
+			{
+
+			}
 
 
 		}
 		break;
 	}
 	case "ville": {
+		//ask
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
