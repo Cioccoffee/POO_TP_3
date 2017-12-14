@@ -118,8 +118,7 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 	int nb;
 	//int nbTS;
 	//int nbTC;
-	switch (choice)
-	{
+	switch (choice) {
 	case "all": {
 		is.getline(ligne);
 		is.getline(ligne);
@@ -128,18 +127,15 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			is.getline(ligne);
 			stringstream ss(ligne);
 			ss >> type;
-			if(type == "TS")
-			{
+			if (type == "TS") {
 				ss >> depart;
 				ss >> arrivee;
 				ss >> transport;
-				catalogue->Ajouter(new TrajetSimple(depart,arrivee,transport));
-			}
-			else if(type == "TC")
-			{
+				catalogue->Ajouter(
+						new TrajetSimple(depart, arrivee, transport));
+			} else if (type == "TC") {
 
 			}
-
 
 		}
 		break;
@@ -148,18 +144,19 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 		is.getline(ligne);
 		stringstream ss(ligne);
 		ss >> nb;
-		if(nb == 0) break;
+		if (nb == 0)
+			break;
 		is.getline(ligne); //skip metadata about TCis.getline(ligne);
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
 			ss >> type;
-			if(type == "TS")
-			{
+			if (type == "TS") {
 				ss >> depart;
 				ss >> arrivee;
 				ss >> transport;
-				catalogue->Ajouter(new TrajetSimple(depart,arrivee,transport));
+				catalogue->Ajouter(
+						new TrajetSimple(depart, arrivee, transport));
 				//do I have to explicitely cast from string to char * ??????????????
 			}
 
@@ -171,22 +168,40 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 		is.getline(ligne);
 		stringstream ss(ligne);
 		ss >> nb;
-		if(nb == 0) break;
+		if (nb == 0)
+			break;
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
 			ss >> type;
-			if(type == "TC")
-			{
+			if (type == "TC") {
 
 			}
-
 
 		}
 		break;
 	}
 	case "ville": {
 		//ask
+		char constraint;
+		cout << "Souhaitez-vous imposer une ville de départ (D), d'arrivée (A) ou les deux (B) ?"<< endl;
+		cout << "Veuillez saisir la lettre correspondant à vtre choix" << endl;
+		cin >> constraint;
+
+		switch (constraint) {
+		case 'D': {
+			cout << "Quelle doit être la ville de départ des trajets à sélectionner ?"<<endl;
+		}
+		case 'A': {
+			cout << "Quelle doit être la ville d'arrivée des trajets à sélectionner ?"<<endl;
+
+		}
+		case 'b': {
+			cout << "Quelle doit être la ville de départ des trajets à sélectionner ?"<<endl;
+			cout << "Quelle doit être la ville d'arrivée des trajets à sélectionner ?"<<endl;
+
+		}
+		}
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
@@ -272,7 +287,7 @@ static void load(ListeTrajets & catalogue) {
 			break;
 		}
 
-}
+		}
 
 static void readCatalogue ()
 {
@@ -285,7 +300,7 @@ static void save(ListeTrajets & catalogue) {
 
 static void Menu(ListeTrajets & catalogue)
 // Algorithme :
-		{
+{
 	cout << "Veuillez choisir une option: " << endl;
 	cout << "1. Ajouter Trajet Simple " << endl;
 	cout << "2. Ajouter Trajet Compose " << endl;
@@ -300,57 +315,13 @@ static void Menu(ListeTrajets & catalogue)
 			&& (action == 1 || action == 2 || action == 3 || action == 4)) {
 		switch (action) {
 
-		case 1: {
-			//load infos from file
-			load();
-			break;
-		}
-			//TS
-		case 2: {
-
-			char depart[1024];
-			char arrivee[1024];
-			char transport[1024];
-
-			cout << "Ville de depart ?" << endl;
-			cin >> depart;
-			cout << "Ville d'arrivee ?" << endl;
-			cin >> arrivee;
-			while (strcmp(depart, arrivee) == 0) {
-				cout
-						<< "Veuillez ressaisir les villes de depart et d'arrivee de votre trajet"
-						<< endl;
-				cout << "Ville de depart ?" << endl;
-				cin >> depart;
-				cout << "Ville d'arrivee ?" << endl;
-				cin >> arrivee;
+			case 1: {
+				//load infos from file
+				load();
+				break;
 			}
-			cout << "Moyen de transport ?" << endl;
-			cin >> transport;
-
-			catalogue.Ajouter(new TrajetSimple(depart, arrivee, transport));
-
-			break;
-		}
-
-			//TC
-
-		case 3: {
-
-			ListeTrajets * lt = new ListeTrajets;
-
-			cout << "De combien de trajets est compose ce trajet compose ?"
-					<< endl;
-			int i = 0;
-			int n;
-			cin >> n;
-
-			char arriveePrecedent[1024];
-			strcpy(arriveePrecedent, "no dest");
-
-			while (i < n) {
-				//while(arrivee d'avant != depart de maintenant) => sinon on peut le remplir pour lui
-				cout << "Saisie du trajet num " << i + 1 << endl;
+			//TS
+			case 2: {
 
 				char depart[1024];
 				char arrivee[1024];
@@ -358,15 +329,12 @@ static void Menu(ListeTrajets & catalogue)
 
 				cout << "Ville de depart ?" << endl;
 				cin >> depart;
-
 				cout << "Ville d'arrivee ?" << endl;
 				cin >> arrivee;
-
-				while ((strcmp(depart, arrivee) == 0)
-						|| ((strcmp(depart, arriveePrecedent) != 0) && (i != 0))) {
+				while (strcmp(depart, arrivee) == 0) {
 					cout
-							<< "Veuillez ressaisir les villes de depart et d'arrivee de votre trajet"
-							<< endl;
+					<< "Veuillez ressaisir les villes de depart et d'arrivee de votre trajet"
+					<< endl;
 					cout << "Ville de depart ?" << endl;
 					cin >> depart;
 					cout << "Ville d'arrivee ?" << endl;
@@ -375,47 +343,94 @@ static void Menu(ListeTrajets & catalogue)
 				cout << "Moyen de transport ?" << endl;
 				cin >> transport;
 
-				strcpy(arriveePrecedent, arrivee);
-				lt->Ajouter(new TrajetSimple(depart, arrivee, transport));
+				catalogue.Ajouter(new TrajetSimple(depart, arrivee, transport));
 
-				i++;
+				break;
 			}
-			TrajetCompose * tc = new TrajetCompose(lt);
 
-			catalogue.Ajouter(tc);
+			//TC
 
-			//delete lt;
+			case 3: {
 
-			break;
-		}
+				ListeTrajets * lt = new ListeTrajets;
+
+				cout << "De combien de trajets est compose ce trajet compose ?"
+				<< endl;
+				int i = 0;
+				int n;
+				cin >> n;
+
+				char arriveePrecedent[1024];
+				strcpy(arriveePrecedent, "no dest");
+
+				while (i < n) {
+					//while(arrivee d'avant != depart de maintenant) => sinon on peut le remplir pour lui
+					cout << "Saisie du trajet num " << i + 1 << endl;
+
+					char depart[1024];
+					char arrivee[1024];
+					char transport[1024];
+
+					cout << "Ville de depart ?" << endl;
+					cin >> depart;
+
+					cout << "Ville d'arrivee ?" << endl;
+					cin >> arrivee;
+
+					while ((strcmp(depart, arrivee) == 0)
+							|| ((strcmp(depart, arriveePrecedent) != 0) && (i != 0))) {
+						cout
+						<< "Veuillez ressaisir les villes de depart et d'arrivee de votre trajet"
+						<< endl;
+						cout << "Ville de depart ?" << endl;
+						cin >> depart;
+						cout << "Ville d'arrivee ?" << endl;
+						cin >> arrivee;
+					}
+					cout << "Moyen de transport ?" << endl;
+					cin >> transport;
+
+					strcpy(arriveePrecedent, arrivee);
+					lt->Ajouter(new TrajetSimple(depart, arrivee, transport));
+
+					i++;
+				}
+				TrajetCompose * tc = new TrajetCompose(lt);
+
+				catalogue.Ajouter(tc);
+
+				//delete lt;
+
+				break;
+			}
 
 			//catalogue
-		case 4: {
-			catalogue.Afficher();
-			break;
-		}
+			case 4: {
+				catalogue.Afficher();
+				break;
+			}
 
 			//search
-		case 5: {
-			//appel mï¿½thode de recherche
-			char depart[1024];
-			char arrivee[1024];
-			cout << "Quelle est votre ville de dï¿½part ?" << endl;
-			cin >> depart;
-			cout << "Quelle est votre destination ?" << endl;
-			cin >> arrivee;
+			case 5: {
+				//appel mï¿½thode de recherche
+				char depart[1024];
+				char arrivee[1024];
+				cout << "Quelle est votre ville de dï¿½part ?" << endl;
+				cin >> depart;
+				cout << "Quelle est votre destination ?" << endl;
+				cin >> arrivee;
 
-			//RechercheSimple(catalogue, depart, arrivee);
-			RechercheAvancee(catalogue, depart, arrivee);
+				//RechercheSimple(catalogue, depart, arrivee);
+				RechercheAvancee(catalogue, depart, arrivee);
 
-			break;
-		}
-		case 6: {
-			//sauvegarder
-			save(catalogue);
-			break;
-		}
-		case 7:
+				break;
+			}
+			case 6: {
+				//sauvegarder
+				save(catalogue);
+				break;
+			}
+			case 7:
 			//stopper l'exÃ©cution
 			break;
 		}
