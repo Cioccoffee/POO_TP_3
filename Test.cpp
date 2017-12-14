@@ -109,121 +109,121 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 } //----- Fin de RechercheAvancee
 
 
-//static void read(ListeTrajets & catalogue, String choice, ifstream is) {
-//	String ligne;
-//	switch (choice) {
-//	case "all": {
-//		while (is.peek() != null) {
-//			is.getline(ligne);
-//			stringstream ss(ligne);
-//
-//		}
-//		break;
-//	}
-//	case "TS": {
-//		while (is.peek() != null) {
-//			is.getline(ligne);
-//			stringstream ss(ligne);
-//
-//		}
-//		break;
-//	}
-//	case "TC": {
-//		while (is.peek() != null) {
-//			is.getline(ligne);
-//			stringstream ss(ligne);
-//
-//		}
-//		break;
-//	}
-//	case "ville": {
-//		while (is.peek() != null) {
-//			is.getline(ligne);
-//			stringstream ss(ligne);
-//
-//		}
-//		break;
-//	}
-//	case "intervalle": {
-//		while (is.peek() != null) {
-//			is.getline(ligne);
-//			stringstream ss(ligne);
-//
-//		}
-//		break;
-//	}
-//	}
-//
-//}
+static void read(ListeTrajets & catalogue, String choice, ifstream is) {
+	String ligne;
+	switch (choice) {
+	case "all": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
 
-//static void load(ListeTrajets & catalogue) {
-//	ifstream is;
-//
-//	cout
-//			<< "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: "
-//			<< endl;
-//	String filename;
-//	cin >> filename;
-//	if (filename == "exit" || filename == "exit ")
-//		return;
-//	is = new ifstream(filename);
-//	//check if exists
-//	is.open(filename);
-//	while (!is.open()/*stat (filename, &buffer) != 0*/) {
-//		//demander si souhaite ou mettre une option de sortie
-//		cout
-//				<< "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): "
-//				<< endl;
-//		cin >> filename;
-//		if (filename == "exit" || filename == "exit ")
-//			return;
-//		is.open(filename);
-//	}
-//	cout << "Veuillez choisir une option: " << endl;
-//	cout << "1. Charger tous les trajets " << endl;
-//	cout << "1. Charger uniquement les Trajets Simples " << endl;
-//	cout << "2. Charger uniquement les Trajets Composes " << endl;
-//	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée "
-//			<< endl;
-//	//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
-//	cout << "4. Charger seulement une sélection de trajets " << endl;
-//	cout << "5. Sortir" << endl;
-//
-//	//demander si on veut append ou escraser
-//	int action;
-//	cin >> action;
-//
-//	while ()
-//
-//		switch (action) {
-//		case 1: {
-//			//load infos from file
-//			read(catalogue, "all", is);
-//			break;
-//		}
-//		case 2: {
-//			//load infos from file
-//			read(catalogue, "TS", is);
-//			break;
-//		}
-//		case 3: {
-//			//load infos from file
-//			read(catalogue, "TC", is);
-//			break;
-//		}
-//		case 4: {
-//			//load infos from file
-//			read(catalogue, "ville", is);
-//			break;
-//		}
-//		case 5: {
-//			//load infos from file
-//			read(catalogue, "intervalle", is);
-//			break;
-//		}
-//
-//		}
-//}
+		}
+		break;
+	}
+	case "TS": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	case "TC": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	case "ville": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	case "intervalle": {
+		while (is.peek() != null) {
+			is.getline(ligne);
+			stringstream ss(ligne);
+
+		}
+		break;
+	}
+	}
+
+}
+
+static void load(ListeTrajets & catalogue) {
+	ifstream is;
+
+	cout
+			<< "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: "
+			<< endl;
+	String filename;
+	cin >> filename;
+	if (filename == "exit" || filename == "exit ")
+		return;
+	is = new ifstream(filename);
+	//check if exists
+	is.open(filename);
+	while (!is.open()/*stat (filename, &buffer) != 0*/) {
+		//demander si souhaite ou mettre une option de sortie
+		cout
+				<< "Le fichier n'a pas été trouvé, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): "
+				<< endl;
+		cin >> filename;
+		if (filename == "exit" || filename == "exit ")
+			return;
+		is.open(filename);
+	}
+	cout << "Veuillez choisir une option: " << endl;
+	cout << "1. Charger tous les trajets " << endl;
+	cout << "1. Charger uniquement les Trajets Simples " << endl;
+	cout << "2. Charger uniquement les Trajets Composes " << endl;
+	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée "
+			<< endl;
+	//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
+	cout << "4. Charger seulement une sélection de trajets " << endl;
+	cout << "5. Sortir" << endl;
+
+	//demander si on veut append ou escraser
+	int action;
+	cin >> action;
+
+	while ()
+
+		switch (action) {
+		case 1: {
+			//load infos from file
+			read(catalogue, "all", is);
+			break;
+		}
+		case 2: {
+			//load infos from file
+			read(catalogue, "TS", is);
+			break;
+		}
+		case 3: {
+			//load infos from file
+			read(catalogue, "TC", is);
+			break;
+		}
+		case 4: {
+			//load infos from file
+			read(catalogue, "ville", is);
+			break;
+		}
+		case 5: {
+			//load infos from file
+			read(catalogue, "intervalle", is);
+			break;
+		}
+
+		}
+}
 
 static void readCatalogue(ListeTrajets & catalogue, string choice, ofstream &os)
 {
@@ -353,7 +353,7 @@ static void Menu(ListeTrajets & catalogue)
 
 		case 1: {
 			//load infos from file
-			//load(catalogue);
+			load(catalogue);
 			break;
 		}
 			//TS
