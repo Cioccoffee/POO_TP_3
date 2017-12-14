@@ -324,12 +324,112 @@ static void load(ListeTrajets & catalogue) {
 
 		}
 
-static void readCatalogue ()
+static void readCatalogue(ListeTrajets & catalogue, string choice, ofstream &os)
 {
+	//os.open("test.txt",std::ofstream::out | std::ofstream::app);
+
+	for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+			const char * depart = catalogue.getTrajet(i)->Depart();
+			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
+			//const char * transport = catalogue.getTrajet(i)->Transport();
+
+			os << depart;
+
+	}
+
 
 }
 
+static void testReadCatalogue(ListeTrajets * catalogue)
+{
+	ofstream os;
+	os.open("test.txt",std::ofstream::out | std::ofstream::app);
+
+	TrajetSimple *ts1 = new TrajetSimple("ty", "B", "MT");
+	Trajet * ts2 = new TrajetSimple("B", "C", "MT2");
+	TrajetSimple *ts3 = new TrajetSimple("ty", "C", "MT3");
+	TrajetSimple *ts4 = new TrajetSimple("C", "K", "MT4");
+	TrajetSimple *ts5 = new TrajetSimple("C", "E", "MT5");
+	TrajetSimple *ts6 = new TrajetSimple("E", "K", "MT6");
+
+	ListeTrajets * lt2 = new ListeTrajets;
+	lt2->Ajouter(ts1);
+	lt2->Ajouter(ts2);
+	TrajetCompose * tc1 = new TrajetCompose(lt2);
+
+	catalogue->Ajouter(tc1);
+	catalogue->Ajouter(ts3);
+	catalogue->Ajouter(ts4);
+	catalogue->Ajouter(ts5);
+	catalogue->Ajouter(ts6);
+
+	catalogue->Afficher();
+
+	readCatalogue(*catalogue,"all",os);
+}
+
 static void save(ListeTrajets & catalogue) {
+	ofstream os;
+
+	//demander le nom du fichier
+	cout
+			<< "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: "
+			<< endl;
+	string filename;
+	cin >> filename;
+	if (filename == "exit" || filename == "exit ")
+		return;
+
+	//ouverture/creation d'un nouvel fichier avec le nom donné
+	os.open(filename,std::ofstream::out | std::ofstream::app);
+
+	//demander si on veut append ou escraser
+
+	//choisir les options pour la sauvegar
+
+	cout << "Veuillez choisir une option: " << endl;
+	cout << "1. Charger tous les trajets " << endl;
+	cout << "1. Charger uniquement les Trajets Simples " << endl;
+	cout << "2. Charger uniquement les Trajets Composes " << endl;
+	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée "
+			<< endl;
+	//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
+	cout << "4. Charger seulement une sélection de trajets " << endl;
+	cout << "5. Sortir" << endl;
+
+
+	int action;
+	cin >> action;
+
+//	switch (action)
+//	{
+//		case 1: {
+//			//load infos from file
+//			read(catalogue, "all", os);
+//			break;
+//		}
+//		case 2: {
+//			//load infos from file
+//			read(catalogue, "TS", os);
+//			break;
+//		}
+//		case 3: {
+//			//load infos from file
+//			read(catalogue, "TC", os);
+//			break;
+//		}
+//		case 4: {
+//			//load infos from file
+//			read(catalogue, "ville", os);
+//			break;
+//		}
+//		case 5: {
+//			//load infos from file
+//			read(catalogue, "intervalle", os);
+//			break;
+//		}
+//
+//	}
 
 }
 
@@ -350,11 +450,11 @@ static void Menu(ListeTrajets & catalogue)
 			&& (action == 1 || action == 2 || action == 3 || action == 4)) {
 		switch (action) {
 
-			case 1: {
-				//load infos from file
-				load();
-				break;
-			}
+		case 1: {
+			//load infos from file
+			load(catalogue);
+			break;
+		}
 			//TS
 			case 2: {
 
@@ -487,6 +587,7 @@ int main()
 {
 	ListeTrajets * catalogue = new ListeTrajets;
 	Menu(*catalogue);
+	testReadCatalogue(catalogue);
 	delete catalogue;
 	return 0;
 } //----- Fin de main

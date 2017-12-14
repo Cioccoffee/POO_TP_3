@@ -13,7 +13,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
 #include "ListeTrajets.h" 
-#include <cstring>
+#include <string>
 
 //------------------------------------------------------------- Constantes
 
@@ -82,7 +82,7 @@ public:
 	//
 	//
 
-	String Type() const;
+	string Type() const;
 
 	virtual ~TrajetCompose();
 	// Mode d'emploi :
