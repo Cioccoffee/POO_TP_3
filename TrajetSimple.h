@@ -12,6 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
+#include <string>
 
 //------------------------------------------------------------- Constantes
 
@@ -79,7 +80,7 @@ public:
 	//
 	//
 
-	String Type() const;
+	string Type() const;
 
 	virtual ~TrajetSimple();
 	// Mode d'emploi :

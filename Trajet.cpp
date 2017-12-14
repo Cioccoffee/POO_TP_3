@@ -44,7 +44,7 @@ const char * Trajet::Arrivee() const
 	return villeArrivee;
 } //----- Fin de Méthode
 
-String Trajet:: Type() const
+string Trajet:: Type() const
 {
 	return "";
 }

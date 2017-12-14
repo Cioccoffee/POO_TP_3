@@ -75,7 +75,7 @@ ListeTrajets * TrajetCompose::Trajets()  const
   
   //-------------------------------------------- Constructeurs - destructeur
 
-String TrajetCompose:: Type() const
+string TrajetCompose:: Type() const
 {
 	return "TC";
 }

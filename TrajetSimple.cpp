@@ -50,7 +50,7 @@ const char * TrajetSimple::Transport() const
 } //----- Fin de Methode
 
 
-String TrajetSimple:: Type() const
+string TrajetSimple:: Type() const
 {
 	return "TS";
 }
