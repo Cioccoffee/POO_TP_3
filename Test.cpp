@@ -108,6 +108,28 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 	cout << "--------" << endl;
 } //----- Fin de RechercheAvancee
 
+static void readTS(ListeTrajets & catalogue, stringstream ss) {
+	ss >> depart;
+	while (ss.peek() != ";") {
+		ss >> word;
+		depart += word;
+	}
+	ss >> word; //throw the separator
+	ss >> arrivee;
+	while (ss.peek() != ";") {
+		ss >> word;
+		arrivee += word;
+	}
+	ss >> word; //throw the separator
+	ss >> transport;
+	while (ss.peek() != null) {
+		ss >> word;
+		transport += word;
+	}
+	catalogue->Ajouter(new TrajetSimple(depart, arrivee, transport));
+	//do I have to explicitely cast from string to char * ??????????????
+}
+
 static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 	String ligne;
 	String word;
@@ -128,11 +150,7 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			stringstream ss(ligne);
 			ss >> type;
 			if (type == "TS") {
-				ss >> depart;
-				ss >> arrivee;
-				ss >> transport;
-				catalogue->Ajouter(
-						new TrajetSimple(depart, arrivee, transport));
+				readTS(catalogue, ss);
 			} else if (type == "TC") {
 
 			}
@@ -146,18 +164,14 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 		ss >> nb;
 		if (nb == 0)
 			break;
-		is.getline(ligne); //skip metadata about TCis.getline(ligne);
+		is.getline(ligne); //skip metadata about TC
+
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
 			ss >> type;
 			if (type == "TS") {
-				ss >> depart;
-				ss >> arrivee;
-				ss >> transport;
-				catalogue->Ajouter(
-						new TrajetSimple(depart, arrivee, transport));
-				//do I have to explicitely cast from string to char * ??????????????
+
 			}
 
 		}
@@ -184,27 +198,48 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 	case "ville": {
 		//ask
 		char constraint;
-		cout << "Souhaitez-vous imposer une ville de départ (D), d'arrivée (A) ou les deux (B) ?"<< endl;
+		cout<< "Souhaitez-vous imposer une ville de départ (D), d'arrivée (A) ou les deux (B) ?"
+				<< endl;
 		cout << "Veuillez saisir la lettre correspondant à vtre choix" << endl;
 		cin >> constraint;
 
+		String wanted_dep;
+		String wanted_arr;
+
 		switch (constraint) {
-		case 'D': {
-			cout << "Quelle doit être la ville de départ des trajets à sélectionner ?"<<endl;
+		case 'D' or 'd': {
+			cout
+					<< "Quelle doit être la ville de départ des trajets à sélectionner ?"
+					<< endl;
+			cin >> wanted_dep;
 		}
-		case 'A': {
-			cout << "Quelle doit être la ville d'arrivée des trajets à sélectionner ?"<<endl;
-
+		case 'A' or 'a': {
+			cout
+					<< "Quelle doit être la ville d'arrivée des trajets à sélectionner ?"
+					<< endl;
+			cin >> wanted_arr;
 		}
-		case 'b': {
-			cout << "Quelle doit être la ville de départ des trajets à sélectionner ?"<<endl;
-			cout << "Quelle doit être la ville d'arrivée des trajets à sélectionner ?"<<endl;
-
+		case 'B' or 'b': {
+			cout
+					<< "Quelle doit être la ville de départ des trajets à sélectionner ?"
+					<< endl;
+			cin >> wanted_dep;
+			cout
+					<< "Quelle doit être la ville d'arrivée des trajets à sélectionner ?"
+					<< endl;
+			cin >> wanted_arr;
 		}
 		}
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
+			ss >> type;
+			ss >> depart;
+			if (wanted_dep == null || depart != wanted_dep)
+				break;
+			ss >> arrivee;
+			if (wanted_arr == null || arrivee != wanted_arr)
+				break;
 
 		}
 		break;
