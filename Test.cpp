@@ -147,8 +147,7 @@ static void readTC(ListeTrajets & catalogue, stringstream ss) {
 		depart += word;
 	}
 
-
-	while (ss.peek()!=null) {
+	while (ss.peek() != null) {
 		ss >> word; //throw the separator
 		ss >> arrivee;
 		while (ss.peek() != ";") {
@@ -157,13 +156,13 @@ static void readTC(ListeTrajets & catalogue, stringstream ss) {
 		}
 		ss >> word; //throw the separator
 		ss >> transport;
-		while (ss.peek()!=null && ss.peek() != ";") {
+		while (ss.peek() != null && ss.peek() != ";") {
 			ss >> word;
 			transport += word;
 		}
 		lt->Ajouter(new TrajetSimple(depart, arrivee, transport));
 
-		strcpy(depart,arrivee);
+		strcpy(depart, arrivee);
 	}
 
 	catalogue->Ajouter(new TrajetCompose(lt));
@@ -274,11 +273,32 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			stringstream ss(ligne);
 			ss >> type;
 			ss >> depart;
-			if (wanted_dep == null || depart != wanted_dep)
+			while (ss.peek() != ";") {
+				ss >> word;
+				depart += word;
+			}
+			if (wanted_dep != null && depart != wanted_dep)
 				break;
+			ss >> word; //throw the separator
 			ss >> arrivee;
-			if (wanted_arr == null || arrivee != wanted_arr)
+			while (ss.peek() != ";") {
+				ss >> word;
+				depart += word;
+			}
+			if (wanted_arr != null && arrivee != wanted_arr)
 				break;
+			//if reached here, means we're in the right conditions
+			if (type == "TS") {
+				ss >> word; //throw the separator
+				while (ss.peek() != null) {
+					ss >> word;
+					depart += word;
+				}
+				catalogue->Ajouter(new TrajetSimple(depart,arrivee,transport));
+			}
+			else if(type == "TC"){
+				//completer
+			}
 
 		}
 		break;
