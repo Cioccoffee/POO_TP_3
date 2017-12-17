@@ -59,6 +59,20 @@ static void RechercheAvancee(ListeTrajets * catalogue, char * dep, char * arr);
 // Contrat :
 //
 
+static void readTS(ListeTrajets & catalogue, stringstream ss);
+// Mode d'emploi :
+//
+//
+// Contrat :
+//
+
+static void readTC(ListeTrajets & catalogue, stringstream ss);
+// Mode d'emploi :
+//
+//
+// Contrat :
+//
+
 static void read(ListeTrajets & catalogue);
 // Mode d'emploi :
 //
