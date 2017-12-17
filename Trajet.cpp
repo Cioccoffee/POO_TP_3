@@ -44,9 +44,26 @@ const char * Trajet::Arrivee() const
 	return villeArrivee;
 } //----- Fin de Méthode
 
+const char * Trajet::Transport() const
+// Algorithme :
+//
+{
+	return transport;
+} //----- Fin de Méthode
+
+
+//ListeTrajets * TrajetCompose::Trajets() const
+//// Algorithme :
+////
+//{
+//	return trajets;
+//} //----- Fin de Trajets
+
 string Trajet:: Type() const
 {
-	return "";
+//	string type = "dnefgr";
+//	return &type;
+	return "udihfr";
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

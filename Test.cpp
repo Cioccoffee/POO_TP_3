@@ -15,6 +15,7 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "Test.h"
 #include <cstring>
+#include <sstream>
 #include <fstream>
 #include <sys/stat.h>
 
@@ -107,7 +108,6 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 	result->Afficher();
 	cout << "--------" << endl;
 } //----- Fin de RechercheAvancee
-
 
 static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 	String ligne;
@@ -225,26 +225,282 @@ static void load(ListeTrajets & catalogue) {
 		}
 }
 
-static void readCatalogue(ListeTrajets & catalogue, string choice, ofstream &os)
-{
-	//os.open("test.txt",std::ofstream::out | std::ofstream::app);
+static void readAllCatalogue(ListeTrajets & catalogue, ofstream &os, int & nbTS,
+		int & nbTC) {
 
 	for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+
+		if (catalogue.getTrajet(i)->Type().compare("TS") == 0) {
+
+			nbTS++;
+			string type = catalogue.getTrajet(i)->Type();
 			const char * depart = catalogue.getTrajet(i)->Depart();
 			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
-			//const char * transport = catalogue.getTrajet(i)->Transport();
+			const char * transport = catalogue.getTrajet(i)->Transport();
+			os << type << " " << depart << " ; " << arrivee << " ; "
+					<< transport << "\n";
 
-			os << depart;
+		} else {
+
+			nbTC++;
+			string type = catalogue.getTrajet(i)->Type();
+			os << type << " ";
+
+			unsigned int j = 0;
+			TrajetCompose *tc =
+					dynamic_cast<TrajetCompose *>(catalogue.getTrajet(i));
+			ListeTrajets * trajets = tc->Trajets();
+			CelluleTrajet * actuelle = trajets->Tete();
+			Trajet * actuel = actuelle->valeur;
+
+			for (j = 0; j < trajets->Taille(); j++) {
+				actuel = actuelle->valeur;
+				os << actuel->Depart() << " ; " << actuel->Arrivee() << " ; "
+						<< actuel->Transport();
+				if (j != trajets->Taille() - 1)
+					os << " ; ";
+				if (actuelle->suivant != NULL)
+					actuelle = actuelle->suivant;
+			}
+			os << "\n";
+		}
+	}
+	//os<<nbTC;
+	//os.seekp(0,ios::beg);
+	//os.put('1');
+	//os.write("TC ",3);
+	//os<<nbTC;
+//	os<<"TS "<<nbTS<<"\n";
+	//os<<"TC "<<nbTC<<"\n";
+	//os.close();
+}
+
+static void readTSCatalogue(ListeTrajets & catalogue, ofstream &os) {
+
+	for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+
+		if (catalogue.getTrajet(i)->Type().compare("TS") == 0) {
+
+			//nbTS++;
+			string type = catalogue.getTrajet(i)->Type();
+			const char * depart = catalogue.getTrajet(i)->Depart();
+			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
+			const char * transport = catalogue.getTrajet(i)->Transport();
+
+			os << type << " " << depart << " ; " << arrivee << " ; "
+					<< transport << "\n";
+
+		}
+	}
+}
+
+static void readTCCatalogue(ListeTrajets & catalogue, ofstream &os) {
+
+	for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+
+		if (catalogue.getTrajet(i)->Type().compare("TC") == 0) {
+
+			//nbTC++;
+			string type = catalogue.getTrajet(i)->Type();
+			os << type << " ";
+
+			unsigned int j = 0;
+			TrajetCompose *tc =
+					dynamic_cast<TrajetCompose *>(catalogue.getTrajet(i));
+			ListeTrajets * trajets = tc->Trajets();
+			CelluleTrajet * actuelle = trajets->Tete();
+			Trajet * actuel = actuelle->valeur;
+
+			for (j = 0; j < trajets->Taille(); j++) {
+				actuel = actuelle->valeur;
+				os << actuel->Depart() << " ; " << actuel->Arrivee() << " ; "
+						<< actuel->Transport();
+				if (j != trajets->Taille() - 1)
+					os << " ; ";
+				if (actuelle->suivant != NULL)
+					actuelle = actuelle->suivant;
+			}
+			os << "\n";
+		}
+	}
+}
+
+static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
+		ofstream &os) {
+
+	if (dep.compare("none") != 0 && arr.compare("none") != 0) {
+		for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+			string type = catalogue.getTrajet(i)->Type();
+			const char * depart = catalogue.getTrajet(i)->Depart();
+			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
+
+			if (dep.compare(depart) == 0 && arr.compare(arrivee) == 0) {
+				if (catalogue.getTrajet(i)->Type().compare("TS") == 0) {
+					const char * transport =
+							catalogue.getTrajet(i)->Transport();
+					os << type << " " << depart << " ; " << arrivee << " ; "
+							<< transport << "\n";
+				} else {
+					string type = catalogue.getTrajet(i)->Type();
+					os << type << " ";
+
+					unsigned int j = 0;
+					TrajetCompose *tc =
+							dynamic_cast<TrajetCompose *>(catalogue.getTrajet(i));
+					ListeTrajets * trajets = tc->Trajets();
+					CelluleTrajet * actuelle = trajets->Tete();
+					Trajet * actuel = actuelle->valeur;
+
+					for (j = 0; j < trajets->Taille(); j++) {
+						actuel = actuelle->valeur;
+						os << actuel->Depart() << " ; " << actuel->Arrivee()
+								<< " ; " << actuel->Transport();
+						if (j != trajets->Taille() - 1)
+							os << " ; ";
+						if (actuelle->suivant != NULL)
+							actuelle = actuelle->suivant;
+					}
+					os << "\n";
+
+				}
+
+			}
+
+		}
+	} else if (dep.compare("none") != 0 && arr.compare("none") == 0) {
+		for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+			string type = catalogue.getTrajet(i)->Type();
+			const char * depart = catalogue.getTrajet(i)->Depart();
+			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
+
+			if (dep.compare(depart) == 0) {
+				if (catalogue.getTrajet(i)->Type().compare("TS") == 0) {
+					const char * transport =
+							catalogue.getTrajet(i)->Transport();
+					os << type << " " << depart << " ; " << arrivee << " ; "
+							<< transport << "\n";
+				} else {
+					string type = catalogue.getTrajet(i)->Type();
+					os << type << " ";
+
+					unsigned int j = 0;
+					TrajetCompose *tc =
+							dynamic_cast<TrajetCompose *>(catalogue.getTrajet(i));
+					ListeTrajets * trajets = tc->Trajets();
+					CelluleTrajet * actuelle = trajets->Tete();
+					Trajet * actuel = actuelle->valeur;
+
+					for (j = 0; j < trajets->Taille(); j++) {
+						actuel = actuelle->valeur;
+						os << actuel->Depart() << " ; " << actuel->Arrivee()
+								<< " ; " << actuel->Transport();
+						if (j != trajets->Taille() - 1)
+							os << " ; ";
+						if (actuelle->suivant != NULL)
+							actuelle = actuelle->suivant;
+					}
+					os << "\n";
+
+				}
+
+			}
+
+		}
+	} else if (dep.compare("none") == 0 && arr.compare("none") != 0) {
+		for (unsigned int i = 0; i < catalogue.Taille(); i++) {
+			string type = catalogue.getTrajet(i)->Type();
+			const char * depart = catalogue.getTrajet(i)->Depart();
+			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
+
+			if (arr.compare(arrivee) == 0) {
+				if (catalogue.getTrajet(i)->Type().compare("TS") == 0) {
+					const char * transport =
+							catalogue.getTrajet(i)->Transport();
+					os << type << " " << depart << " ; " << arrivee << " ; "
+							<< transport << "\n";
+				} else {
+					string type = catalogue.getTrajet(i)->Type();
+					os << type << " ";
+
+					unsigned int j = 0;
+					TrajetCompose *tc =
+							dynamic_cast<TrajetCompose *>(catalogue.getTrajet(i));
+					ListeTrajets * trajets = tc->Trajets();
+					CelluleTrajet * actuelle = trajets->Tete();
+					Trajet * actuel = actuelle->valeur;
+
+					for (j = 0; j < trajets->Taille(); j++) {
+						actuel = actuelle->valeur;
+						os << actuel->Depart() << " ; " << actuel->Arrivee()
+								<< " ; " << actuel->Transport();
+						if (j != trajets->Taille() - 1)
+							os << " ; ";
+						if (actuelle->suivant != NULL)
+							actuelle = actuelle->suivant;
+					}
+					os << "\n";
+
+				}
+
+			}
+
+		}
 
 	}
 
+}
+
+static void readIntervalleCatalogue(ListeTrajets & catalogue, unsigned int n,
+		unsigned int m, ofstream &os) {
+
+	if (n >= 1 && n <= m && m <= catalogue.Taille() + 1) {
+
+		for (unsigned int i = n-1; i < m ; i++) {
+
+			if (catalogue.getTrajet(i)->Type().compare("TS") == 0) {
+
+				//nbTS++;
+				string type = catalogue.getTrajet(i)->Type();
+				const char * depart = catalogue.getTrajet(i)->Depart();
+				const char * arrivee = catalogue.getTrajet(i)->Arrivee();
+				const char * transport = catalogue.getTrajet(i)->Transport();
+				os << type << " " << depart << " ; " << arrivee << " ; "
+						<< transport << "\n";
+
+			} else {
+
+				//nbTC++;
+				string type = catalogue.getTrajet(i)->Type();
+				os << type << " ";
+
+				unsigned int j = 0;
+				TrajetCompose *tc =
+						dynamic_cast<TrajetCompose *>(catalogue.getTrajet(i));
+				ListeTrajets * trajets = tc->Trajets();
+				CelluleTrajet * actuelle = trajets->Tete();
+				Trajet * actuel = actuelle->valeur;
+
+				for (j = 0; j < trajets->Taille(); j++) {
+					actuel = actuelle->valeur;
+					os << actuel->Depart() << " ; " << actuel->Arrivee()
+							<< " ; " << actuel->Transport();
+					if (j != trajets->Taille() - 1)
+						os << " ; ";
+					if (actuelle->suivant != NULL)
+						actuelle = actuelle->suivant;
+				}
+				os << "\n";
+			}
+		}
+	}
 
 }
 
-static void testReadCatalogue(ListeTrajets * catalogue)
-{
+static void testReadCatalogue(ListeTrajets * catalogue) {
 	ofstream os;
-	os.open("test.txt",std::ofstream::out | std::ofstream::app);
+	//os.open("test.txt", std::ofstream::out | std::ofstream::app);
+//	unsigned int nbTS = 0;
+//	unsigned int nbTC = 0;
 
 	TrajetSimple *ts1 = new TrajetSimple("ty", "B", "MT");
 	Trajet * ts2 = new TrajetSimple("B", "C", "MT2");
@@ -266,11 +522,17 @@ static void testReadCatalogue(ListeTrajets * catalogue)
 
 	catalogue->Afficher();
 
-	readCatalogue(*catalogue,"all",os);
+//string * type = catalogue->getTrajet(0)->Type();
+//cout<<catalogue->getTrajet(1)->Type()<<endl;
+
+//readAllCatalogue(*catalogue, os);
+//delete ts1;
 }
 
 static void save(ListeTrajets & catalogue) {
 	ofstream os;
+	int nbTS = 0;
+	int nbTC = 0;
 
 	//demander le nom du fichier
 	cout
@@ -282,56 +544,98 @@ static void save(ListeTrajets & catalogue) {
 		return;
 
 	//ouverture/creation d'un nouvel fichier avec le nom donné
-	os.open(filename,std::ofstream::out | std::ofstream::app);
+
+	if (!os.is_open()) {
+		os.open(filename, std::ofstream::out | std::ofstream::app);
+		//os << "           \n";
+		//os << "           \n";
+	} else {
+		os.open(filename, std::ofstream::out | std::ofstream::app);
+//		string ligne;
+//		string s;
+//		os.read(ligne,15);
+//		stringstream ss(ligne);
+//		ss>> s >> nbTS;
+//		cout<<"jkdsnfsz"<<nbTS;
+
+	}
 
 	//demander si on veut append ou escraser
 
 	//choisir les options pour la sauvegar
 
 	cout << "Veuillez choisir une option: " << endl;
-	cout << "1. Charger tous les trajets " << endl;
-	cout << "1. Charger uniquement les Trajets Simples " << endl;
-	cout << "2. Charger uniquement les Trajets Composes " << endl;
-	cout << "3. Charger un trajet en fonction du départ et/ou de l'arrivée "
+	cout << "1. Sauvegarder tous les trajets " << endl;
+	cout << "2. Sauvegarder uniquement les Trajets Simples " << endl;
+	cout << "3. Sauvegarder uniquement les Trajets Composes " << endl;
+	cout << "4. Sauvegarder un trajet en fonction du départ et/ou de l'arrivée "
 			<< endl;
 	//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
-	cout << "4. Charger seulement une sélection de trajets " << endl;
-	cout << "5. Sortir" << endl;
+	cout << "5. Sauvegarder seulement une sélection de trajets " << endl;
+	cout << "6. Sortir" << endl;
 
+//	string line;
+//	cin.getline(line,20);
+//	cout<<line;
+//	stringstream ss(line);
+//	int val;
+//	string s;
+//
+//	ss>>val>>s;
+//
+//	cout<< val;
+//	cout<<s;
+//	ss<<100;
+//	ss>>action;
+//	ss<<action;
 
+// verifier si action et bon !!!
 	int action;
 	cin >> action;
 
-//	switch (action)
-//	{
-//		case 1: {
-//			//load infos from file
-//			read(catalogue, "all", os);
-//			break;
-//		}
-//		case 2: {
-//			//load infos from file
-//			read(catalogue, "TS", os);
-//			break;
-//		}
-//		case 3: {
-//			//load infos from file
-//			read(catalogue, "TC", os);
-//			break;
-//		}
-//		case 4: {
-//			//load infos from file
-//			read(catalogue, "ville", os);
-//			break;
-//		}
-//		case 5: {
-//			//load infos from file
-//			read(catalogue, "intervalle", os);
-//			break;
-//		}
-//
-//	}
+	switch (action) {
+	case 1: {
+		readAllCatalogue(catalogue, os, nbTS, nbTC);
+//os.close();
+//os.open(filename, std::ofstream::out);
+//		os.seekp(0);
+//		os << "TS " << nbTS << "\n";
+//		os << "TC " << nbTC << "\n";
+//os.close();
+		break;
+	}
+	case 2: {
+		readTSCatalogue(catalogue, os);
+		break;
+	}
+	case 3: {
+		readTCCatalogue(catalogue, os);
+		break;
+	}
+	case 4: {
+		string villeDepart;
+		string villeArrivee;
+		cout << "Choisissez une ville de départ ou \"none\" : ";
+		cin >> villeDepart;
+		cout << "Choisissez une ville d'arrivee ou \"none\" : ";
+		cin >> villeArrivee;
 
+		readVilleCatalogue(catalogue, villeDepart, villeArrivee, os);
+		break;
+	}
+	case 5: {
+		unsigned int n;
+		cout << "Indice du premier trajet: " << endl;
+		cin >> n;
+		unsigned int m;
+		cout << "Indice du dernier trajet: " << endl;
+		cin >> m;
+		readIntervalleCatalogue(catalogue, n, m, os);
+		break;
+	}
+	}
+
+	//os.close();
 }
 
 static void Menu(ListeTrajets & catalogue)
@@ -356,7 +660,7 @@ static void Menu(ListeTrajets & catalogue)
 			load(catalogue);
 			break;
 		}
-			//TS
+//TS
 		case 2: {
 
 			char depart[1024];
@@ -384,7 +688,7 @@ static void Menu(ListeTrajets & catalogue)
 			break;
 		}
 
-			//TC
+//TC
 
 		case 3: {
 
@@ -440,13 +744,13 @@ static void Menu(ListeTrajets & catalogue)
 			break;
 		}
 
-			//catalogue
+//catalogue
 		case 4: {
 			catalogue.Afficher();
 			break;
 		}
 
-			//search
+//search
 		case 5: {
 			//appel m�thode de recherche
 			char depart[1024];
@@ -467,7 +771,7 @@ static void Menu(ListeTrajets & catalogue)
 			break;
 		}
 		case 7:
-			//stopper l'exécution
+//stopper l'exécution
 			break;
 		}
 		cout << "Choisissez une option: " << endl;
@@ -483,12 +787,31 @@ static void Menu(ListeTrajets & catalogue)
 
 }
 
+static void testFile() {
+	ofstream os;
+	os.open("test.txt", std::ofstream::out);
+
+	os << "bbbbbbbbbbbbbbb\n";
+	os << "ccccccccccccccc\n";
+
+	os.seekp(0, ios::beg);
+	os.write(" sam", 4);
+	os.close();
+
+	os.open("test.txt", std::ofstream::out | std::ofstream::app);
+
+	os << "bbbbbbbbbbbbbbb\n";
+}
+
 int main()
 // Algorithme :
 {
 	ListeTrajets * catalogue = new ListeTrajets;
 	//Menu(*catalogue);
+
 	testReadCatalogue(catalogue);
-	//delete catalogue;
+	save(*catalogue);
+	//testFile();
+	delete catalogue;
 	return 0;
 } //----- Fin de main

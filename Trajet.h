@@ -12,7 +12,6 @@
 //using namespace std::string;
 #include <string>
 
-
 //--------------------------------------------------- Interfaces utilisées
 //#include "ListeTrajets.h"
 //------------------------------------------------------------- Constantes
@@ -63,7 +62,16 @@ public:
 	// Contrat :
 	//
 	//
+
+	virtual const char * Transport() const;
+	// Mode d'emploi :
+	// méthode qui retourne le moyen de transport
+	// Contrat :
+	//
+	//
 	virtual string Type() const;
+
+//	virtual ListeTrajets * Trajets() const;
 
 	virtual ~Trajet();
 	// Mode d'emploi :
@@ -76,6 +84,8 @@ public:
 protected:
 	const char * villeDepart;
 	const char * villeArrivee;
+	const char * transport;
+	//ListeTrajets * trajets;
 
 //----------------------------------------------------- Méthodes protégées
 

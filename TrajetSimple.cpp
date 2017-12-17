@@ -52,7 +52,8 @@ const char * TrajetSimple::Transport() const
 
 string TrajetSimple:: Type() const
 {
-	return "TS";
+	string type = "TS";
+	return type;
 }
 
 //------------------------------------------------- Surcharge d'opérateurs

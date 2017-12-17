@@ -1,10 +1,10 @@
 /*************************************************************************
-Trajet  -  description
--------------------
-d�but                : $DATE$
-copyright            : (C) $YEAR$ par $AUTHOR$
-e-mail               : $EMAIL$
-*************************************************************************/
+ Trajet  -  description
+ -------------------
+ d�but                : $DATE$
+ copyright            : (C) $YEAR$ par $AUTHOR$
+ e-mail               : $EMAIL$
+ *************************************************************************/
 
 //---------- Realisation de la classe <Trajet> (fichier Trajet.cpp) ------------
 //---------------------------------------------------------------- INCLUDE
@@ -15,7 +15,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "TrajetCompose.h"
-
 
 //------------------------------------------------------------- Constantes
 
@@ -32,15 +31,16 @@ void TrajetCompose::Afficher() const
 
 	Trajet * actuel = actuelle->valeur;
 
-	for (i = 0; i < trajets->Taille(); i++)
-	{
+	for (i = 0; i < trajets->Taille(); i++) {
 		actuel = actuelle->valeur;
 
 		//Affichage trajet
 
-		if(i!=0) cout << " - ";
+		if (i != 0)
+			cout << " - ";
 		actuel->Afficher();
-		if (actuelle->suivant != NULL) actuelle = actuelle->suivant;
+		if (actuelle->suivant != NULL)
+			actuelle = actuelle->suivant;
 	}
 
 } //----- Fin de Afficher
@@ -63,23 +63,22 @@ const char * TrajetCompose::Arrivee() const
 	return trajetEnQueue->Arrivee(); //choisi la méthode adaptée au type (TS ou TC)
 } //----- Fin de Arrivee
 
-
-ListeTrajets * TrajetCompose::Trajets()  const
+ListeTrajets * TrajetCompose::Trajets() const
 // Algorithme :
 //
 {
 	return trajets;
 } //----- Fin de Trajets
 
-  //------------------------------------------------- Surcharge d'operateurs
-  
-  //-------------------------------------------- Constructeurs - destructeur
+//------------------------------------------------- Surcharge d'operateurs
 
-string TrajetCompose:: Type() const
+//-------------------------------------------- Constructeurs - destructeur
+
+string  TrajetCompose::Type() const
 {
-	return "TC";
+	string type = "TC";
+	return type;
 }
-
 
 TrajetCompose::TrajetCompose()
 // Algorithme :
@@ -91,7 +90,7 @@ TrajetCompose::TrajetCompose()
 
 TrajetCompose::TrajetCompose(const TrajetCompose & t)
 // Algorithme :
-{
+		{
 #ifdef MAP
 	//cout << "Appel au constructeur de <Trajet>" << endl;
 #endif
@@ -100,8 +99,8 @@ TrajetCompose::TrajetCompose(const TrajetCompose & t)
 
 TrajetCompose::TrajetCompose(ListeTrajets * lt)
 // Algorithme :
-{
-	trajets =lt;
+		{
+	trajets = lt;
 #ifdef MAP
 	//cout << "Appel au constructeur de <Trajet>" << endl;
 #endif
@@ -117,8 +116,7 @@ TrajetCompose::~TrajetCompose()
 
 } //----- Fin de ~Trajet
 
-  //------------------------------------------------------------------ PRIVE
+//------------------------------------------------------------------ PRIVE
 
-  //----------------------------------------------------- Methodes protegeees
-
+//----------------------------------------------------- Methodes protegeees
 
