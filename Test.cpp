@@ -793,7 +793,7 @@ static void save(ListeTrajets & catalogue) {
 	switch (action) {
 	case 1: {
 		readAllCatalogue(catalogue, os, nbTS, nbTC);
-		os << " ";
+		os << "fin";
 		os.seekp(0);
 		os << nbTS << " " << nbTC;
 		os.close();
@@ -801,7 +801,7 @@ static void save(ListeTrajets & catalogue) {
 	}
 	case 2: {
 		readTSCatalogue(catalogue, os, nbTS);
-		os << " ";
+		os << "fin";
 		os.seekp(0);
 		os << nbTS << " " << nbTC;
 		os.close();
@@ -809,7 +809,7 @@ static void save(ListeTrajets & catalogue) {
 	}
 	case 3: {
 		readTCCatalogue(catalogue, os, nbTC);
-		os << " ";
+		os << "fin";
 		os.seekp(0);
 		os << nbTS << " " << nbTC;
 		os.close();
@@ -825,7 +825,7 @@ static void save(ListeTrajets & catalogue) {
 
 		readVilleCatalogue(catalogue, villeDepart, villeArrivee, os, nbTS,
 				nbTC);
-		os << " ";
+		os << "fin";
 		os.seekp(0);
 		os << nbTS << " " << nbTC;
 		os.close();
@@ -839,7 +839,7 @@ static void save(ListeTrajets & catalogue) {
 		cout << "Indice du dernier trajet: " << endl;
 		cin >> m;
 		readIntervalleCatalogue(catalogue, n, m, os, nbTS, nbTC);
-		os << " ";
+		os << "fin";
 		os.seekp(0);
 		os << nbTS << " " << nbTC;
 		os.close();
@@ -998,7 +998,7 @@ int main()
 {
 	ListeTrajets * catalogue = new ListeTrajets;
 
-	testReadCatalogue(catalogue);
+	//testReadCatalogue(catalogue);
 	Menu(*catalogue);
 
 	//save(*catalogue);
