@@ -17,6 +17,7 @@ using namespace std;
 #include <cstring>
 #include <sstream>
 #include <fstream>
+#include <typeinfo>
 #include <sys/stat.h>
 
 ///////////////////////////////////////////////////////////////////  PRIVE
@@ -707,76 +708,80 @@ static void save(ListeTrajets & catalogue) {
 	bool choixFichier = true;
 
 	while (choixFichier) {
+		cin.clear();
 		//demander le nom du fichier
 		cout
 				<< "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: "
 				<< endl;
 		string filename;
 		cin >> filename;
+
+		cout<<filename<<endl;
 		if (filename == "exit" || filename == "exit ") {
-			break;
-			return;
-		}
-
-		//ouverture/creation d'un nouvel fichier avec le nom donné
-		os.open(filename, std::ofstream::out | std::ofstream::app);
-		os.seekp(0, ios_base::end);
-		long taille = os.tellp();
-		os.close();
-
-		if (taille <= 0) {
-			os.open(filename, std::ofstream::out);
-			os << "                \n";
 			choixFichier = false;
+			return;
+			break;
 		} else {
-			cout
-					<< "Ce fichier existe déjà. Choisissez une des option suivantes: "
-					<< endl;
-			cout
-					<< "1. Ecrire dans ce fichier, en ecrasant le contenu précédent"
-					<< endl;
+			//ouverture/creation d'un nouvel fichier avec le nom donné
+			os.open(filename, std::ofstream::out | std::ofstream::app);
+			os.seekp(0, ios_base::end);
+			long taille = os.tellp();
+			os.close();
+
+			if (taille <= 0) {
+				os.open(filename, std::ofstream::out);
+				os << "                \n";
+				choixFichier = false;
+			} else {
+				cout
+						<< "Ce fichier existe déjà. Choisissez une des option suivantes: "
+						<< endl;
+				cout
+						<< "1. Ecrire dans ce fichier, en ecrasant le contenu précédent"
+						<< endl;
 //			cout
 //					<< "2. Ecrire dans ce fichier, en rajoutant le nouvel contenu au contenu precedent"
 //					<< endl;
 
-			cout << "2. Saisir le nom d'un nouvel fichier" << endl;
-			cout << "3. Sortir" << endl;
+				cout << "2. Saisir le nom d'un nouvel fichier" << endl;
+				cout << "3. Sortir" << endl;
 
-			int option;
-			cin >> option;
-
-			switch (option) {
-			case 1: {
-				os.open(filename, std::ofstream::out);
-				os << "                  \n";
-				choixFichier = false;
-				break;
-			}
+				int option = 0;
+				cin >> option;
+				//cin.clear();
+				//if (typeid(option).name
+				if (option >= 1 && option <= 3) {
+					switch (option) {
+					case 1: {
+						os.open(filename, std::ofstream::out);
+						os << "                  \n";
+						choixFichier = false;
+						break;
+					}
 //			case 2: {
 //				os.open(filename, std::ofstream::out | std::ofstream::app);
 //				choixFichier = false;
 //				activateAppend = true;
 //			}
 
-			case 2: {
-				choixFichier = true;
-				break;
+					case 2: {
+						choixFichier = true;
+						break;
+					}
+					case 3: {
+						return;
+						break;
+					}
+					}
+				} else {
+					cout << "Le numero saisi n'est pas valide." << endl;
+					return;
+//					os.close();
+//					cin.clear();
+//					choixFichier = true;
+				}
 			}
-			case 3: {
-				return;
-				break;
-			}
-			}
-
 		}
-
-		//		string ligne;
-		//		string s;
-		//		os.read(ligne,15);
-		//		stringstream ss(ligne);
-		//		ss>> s >> nbTS;
-		//		cout<<"jkdsnfsz"<<nbTS;
-
 	}
 
 	//choisir les options pour la sauvegar
@@ -801,7 +806,6 @@ static void save(ListeTrajets & catalogue) {
 		readAllCatalogue(catalogue, os, nbTS, nbTC);
 		os.seekp(0);
 		os << "TS " << nbTS << " TC " << nbTC;
-		os.close();
 		break;
 	}
 	case 2: {
@@ -861,14 +865,14 @@ static void Menu(ListeTrajets & catalogue)
 
 	int action;
 	cin >> action;
-
-	while (action != 5
-			&& (action == 1 || action == 2 || action == 3 || action == 4)) {
+//	if (strcmp(typeid(action).name(),"int") == 0) {
+	while (action >= 1 && (action <= 7)) {
 		switch (action) {
 
 		case 1: {
 			//load infos from file
-			load(catalogue);
+			//load(catalogue);
+			action = 0;
 			break;
 		}
 			//TS
@@ -895,7 +899,7 @@ static void Menu(ListeTrajets & catalogue)
 			cin >> transport;
 
 			catalogue.Ajouter(new TrajetSimple(depart, arrivee, transport));
-
+			action = 0;
 			break;
 		}
 
@@ -940,6 +944,7 @@ static void Menu(ListeTrajets & catalogue)
 
 				catalogue.Ajouter(new TrajetSimple(depart, arrivee, transport));
 
+				action = 0;
 				break;
 			}
 		}
@@ -947,6 +952,7 @@ static void Menu(ListeTrajets & catalogue)
 			//catalogue
 		case 4: {
 			catalogue.Afficher();
+			action  = 0;
 			break;
 		}
 			//search
@@ -961,17 +967,18 @@ static void Menu(ListeTrajets & catalogue)
 
 			//RechercheSimple(catalogue, depart, arrivee);
 			RechercheAvancee(catalogue, depart, arrivee);
-
+			action = 0;
 			break;
 		}
 		case 6: {
 			//sauvegarder
 			save(catalogue);
+			action = 0;
 			break;
 		}
 		case 7: {
 			//stopper l'exécution
-
+			return;
 			break;
 		}
 		}
@@ -986,6 +993,8 @@ static void Menu(ListeTrajets & catalogue)
 		cin >> action;
 	} //----- Fin de Menu
 
+	} //----- Fin de Menu
+//	} else return;
 }
 
 static void testFile() {
