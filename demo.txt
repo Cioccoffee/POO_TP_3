@@ -1,0 +1,5 @@
+2 1             
+TS Lyon ; Bordeaux ; Train
+TC Lyon ; Marseille ; Bateau ; Marseille ; Paris ; Avion
+TS Lyon ; Paris ; Auto
+ 
