@@ -139,7 +139,7 @@ static void readTS(ListeTrajets & catalogue, stringstream& ss) {
 	//do I have to explicitely cast from string to char * ??????????????
 }
 
-static void readTC(ListeTrajets & catalogue, stringstream ss) {
+static void readTC(ListeTrajets & catalogue, stringstream& ss) {
 	string word;
 	string depart;
 	string arrivee;
@@ -203,15 +203,15 @@ static void read(ListeTrajets & catalogue, string choice, ifstream is) {
 
 	}
 	else if(choice == "TS"){
-		is.getline(ligne);
+		getline(is,ligne);
 		stringstream ss(ligne);
 		ss >> nb;
-		if (nb == 0)
-			break;
-		is.getline(ligne); //skip metadata about TC
+		if (nb == 0) break;
+		getline(is,ligne); //prepare while
 
-		while (is.peek() != null) {
-			is.getline(ligne);
+		//while (is.peek() != null) {
+		while (ligne != "") {
+			getline(is,ligne);
 			stringstream ss(ligne);
 			ss >> type;
 			if (type == "TS") {
@@ -222,14 +222,16 @@ static void read(ListeTrajets & catalogue, string choice, ifstream is) {
 
 	}
 	if(choice == "TC") {
-		is.getline(ligne);
-		is.getline(ligne);
+		getline(is,ligne);
+		//getline(is,ligne);
 		stringstream ss(ligne);
+		ss >> nb;
 		ss >> nb;
 		if (nb == 0)
 			break;
-		while (is.peek() != null) {
-			is.getline(ligne);
+		//while (is.peek() != null) {
+		while (ligne != "") {
+			getline(is,ligne);
 			stringstream ss(ligne);
 			ss >> type;
 			if (type == "TC") {
@@ -248,23 +250,23 @@ static void read(ListeTrajets & catalogue, string choice, ifstream is) {
 		cout << "Veuillez saisir la lettre correspondant � vtre choix" << endl;
 		cin >> constraint;
 
-		String wanted_dep;
-		String wanted_arr;
+		string wanted_dep;
+		string wanted_arr;
 
 		switch (constraint) {
-		case 'D' or 'd': {
+		case 'D' /*or 'd'*/: {
 			cout
 					<< "Quelle doit �tre la ville de d�part des trajets � s�lectionner ?"
 					<< endl;
 			cin >> wanted_dep;
 		}
-		case 'A' or 'a': {
+		case 'A' /*or 'a'*/: {
 			cout
 					<< "Quelle doit �tre la ville d'arriv�e des trajets � s�lectionner ?"
 					<< endl;
 			cin >> wanted_arr;
 		}
-		case 'B' or 'b': {
+		case 'B' /*or 'b'*/: {
 			cout
 					<< "Quelle doit �tre la ville de d�part des trajets � s�lectionner ?"
 					<< endl;
@@ -275,28 +277,31 @@ static void read(ListeTrajets & catalogue, string choice, ifstream is) {
 			cin >> wanted_arr;
 		}
 		}
-		while (is.peek() != null) {
-			is.getline(ligne);
+		getline(is,ligne);
+		while (ligne != "") {
+
 			stringstream ss(ligne);
 			ss >> type;
 			ss >> depart;
-			while (ss.peek() != ";") {
-				ss >> word;
+			ss >> word;
+			while (word != ";") {
 				depart += word;
+				ss >> word;
 			}
 			if (wanted_dep != null && depart != wanted_dep)
 				break;
-			ss >> word; //throw the separator
+
 			ss >> arrivee;
-			while (ss.peek() != ";") {
-				ss >> word;
+			ss >> word; //read next for while
+			while (word != ";") {
 				depart += word;
+				ss >> word;
 			}
 			if (wanted_arr != null && arrivee != wanted_arr)
 				break;
 			//if reached here, means we're in the right conditions
 			if (type == "TS") {
-				ss >> word; //throw the separator
+				ss >> word; //read next for while
 				while (ss.peek() != null) {
 					ss >> word;
 					depart += word;
@@ -306,7 +311,7 @@ static void read(ListeTrajets & catalogue, string choice, ifstream is) {
 			} else if (type == "TC") {
 				//completer
 			}
-
+			getline(is,ligne);
 		}
 
 	}
@@ -871,7 +876,7 @@ static void Menu(ListeTrajets & catalogue)
 
 		case 1: {
 			//load infos from file
-			//load(catalogue);
+			/oad(catalogue);
 			action = 0;
 			break;
 		}
