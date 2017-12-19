@@ -12,7 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
-#include "ListeTrajets.h" 
+#include "ListeTrajets.h"
 #include <string>
 
 //------------------------------------------------------------- Constantes

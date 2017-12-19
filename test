@@ -1,2 +1,7 @@
-TS 4
-TC 1
+           
+           
+TC B ; C ; MT2
+TS ty ; C ; MT3
+TS C ; K ; MT4
+TS C ; E ; MT5
+TS E ; K ; MT6

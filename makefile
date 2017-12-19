@@ -34,8 +34,6 @@ $(CLEAN):
 	$(RM) $(RMFLAGS) $(EXE) $(OBJ) core
 
 
-#regle explicite pour la reliure de l'executable
-
 
 
 	
