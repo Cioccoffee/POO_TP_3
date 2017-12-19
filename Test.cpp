@@ -110,60 +110,65 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 } //----- Fin de RechercheAvancee
 
 static void readTS(ListeTrajets & catalogue, stringstream ss) {
-	String word;
-	String depart;
-	String arrivee;
-	String transport;
+	string word;
+	string depart;
+	string arrivee;
+	string transport;
 
 	ss >> depart;
-	while (ss.peek() != ";") {
-		ss >> word;
+	ss >> word;
+	while (word != ";") {
 		depart += word;
+		ss >> word;
 	}
-	ss >> word; //throw the separator
 	ss >> arrivee;
-	while (ss.peek() != ";") {
-		ss >> word;
+	ss >> word;
+	while (word != ";") {
 		arrivee += word;
-	}
-	ss >> word; //throw the separator
-	ss >> transport;
-	while (ss.peek() != null) {
 		ss >> word;
-		transport += word;
 	}
-	catalogue->Ajouter(new TrajetSimple(depart, arrivee, transport));
+	ss >> transport;
+	ss >> word;
+	while (word != "") {
+		transport += word;
+		ss >> word;
+	}
+	catalogue.Ajouter(
+			new TrajetSimple(depart.c_str(), arrivee.c_str(), transport.c_str()));
 	//do I have to explicitely cast from string to char * ??????????????
 }
 
 static void readTC(ListeTrajets & catalogue, stringstream ss) {
-	String word;
-	String depart;
-	String arrivee;
-	String transport;
+	string word;
+	string depart;
+	string arrivee;
+	string transport;
 	ListeTrajets * lt = new ListeTrajets();
 	ss >> depart;
-	while (ss.peek() != ";") {
-		ss >> word;
+	ss >> word;
+	while (word != ";") {
 		depart += word;
+		ss >> word;
 	}
-
-	while (ss.peek() != null) {
-		ss >> word; //throw the separator
+	ss >> word;
+	ss >> arrivee;
+	while (word != ";") {
 		ss >> arrivee;
-		while (ss.peek() != ";") {
-			ss >> word;
+		ss >> word;
+		while (word != ";") {
 			arrivee += word;
-		}
-		ss >> word; //throw the separator
-		ss >> transport;
-		while (ss.peek() != null && ss.peek() != ";") {
 			ss >> word;
-			transport += word;
 		}
-		lt->Ajouter(new TrajetSimple(depart, arrivee, transport));
+		ss >> transport;
+		ss >> word;
+		while (word != "" && word != ";") {
+			transport += word;
+			ss >> word;
+		}
+		lt->Ajouter(new TrajetSimple(depart.c_str(), arrivee.c_str(), transport.c_str()));
 
-		strcpy(depart, arrivee);
+		//strcpy(depart, arrivee);
+		//depart = arrivee; copie en profondeur
 	}
 
 	catalogue->Ajouter(new TrajetCompose(lt));
@@ -1002,7 +1007,7 @@ int main()
 {
 	ListeTrajets * catalogue = new ListeTrajets;
 
-	//Menu(*catalogue);
+	Menu(*catalogue);
 	testReadCatalogue(catalogue);
 	save(*catalogue);
 	//testFile();
