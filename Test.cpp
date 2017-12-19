@@ -109,7 +109,7 @@ static void RechercheAvancee(ListeTrajets & catalogue, char * dep, char * arr)
 	cout << "--------" << endl;
 } //----- Fin de RechercheAvancee
 
-static void readTS(ListeTrajets & catalogue, stringstream ss) {
+static void readTS(ListeTrajets & catalogue, stringstream& ss) {
 	string word;
 	string depart;
 	string arrivee;
@@ -171,25 +171,25 @@ static void readTC(ListeTrajets & catalogue, stringstream ss) {
 		//depart = arrivee; copie en profondeur
 	}
 
-	catalogue->Ajouter(new TrajetCompose(lt));
+	catalogue.Ajouter(new TrajetCompose(lt));
 
 }
 
-static void read(ListeTrajets & catalogue, String choice, ifstream is) {
-	String ligne;
-	String word;
-	String type;
+static void read(ListeTrajets & catalogue, string choice, ifstream is) {
+	string ligne;
+	string word;
+	string type;
 
 	int nb;
 	//int nbTS;
 	//int nbTC;
-	switch (choice) {
-	case "all": {
-		is.getline(ligne);
-		is.getline(ligne);
+	if(choice == "all") {
+		getline(is,ligne);
+		//is.getline(ligne); sur une seule ligne now
 		//on skip les deux lignes de metadata
-		while (is.peek() != null) {
-			is.getline(ligne);
+		getline(is,ligne);
+		while (ligne != "") {
+			getline(is,ligne);
 			stringstream ss(ligne);
 			ss >> type;
 			if (type == "TS") {
@@ -199,9 +199,9 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			}
 
 		}
-		break;
+
 	}
-	case "TS": {
+	else if(choice == "TS"){
 		is.getline(ligne);
 		stringstream ss(ligne);
 		ss >> nb;
@@ -218,9 +218,9 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			}
 
 		}
-		break;
+
 	}
-	case "TC": {
+	if(choice == "TC") {
 		is.getline(ligne);
 		is.getline(ligne);
 		stringstream ss(ligne);
@@ -236,9 +236,9 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			}
 
 		}
-		break;
+
 	}
-	case "ville": {
+	if(choice =="ville") {
 		//ask
 		char constraint;
 		cout
@@ -307,16 +307,16 @@ static void read(ListeTrajets & catalogue, String choice, ifstream is) {
 			}
 
 		}
-		break;
+
 	}
-	case "intervalle": {
+	if(choice =="intervalle") {
 		//ask for interval
 		while (is.peek() != null) {
 			is.getline(ligne);
 			stringstream ss(ligne);
 
 		}
-		break;
+
 	}
 	}
 
