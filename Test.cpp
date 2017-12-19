@@ -856,12 +856,12 @@ static void Menu(ListeTrajets & catalogue)
 // Algorithme :
 		{
 	cout << "Veuillez choisir une option: " << endl;
-	cout << "1. Charger le catalogue depuis un fichier" << endl;
+	cout << "1. Charger des trajets depuis un fichier " << endl;
 	cout << "2. Ajouter Trajet Simple " << endl;
 	cout << "3. Ajouter Trajet Compose " << endl;
 	cout << "4. Afficher le catalogue des trajets " << endl;
 	cout << "5. Rechercher un parcours " << endl;
-	cout << "6. Sauvegarder le catalogue dans un fichier " << endl;
+	cout << "6. Sauvegarder des trajets dans un fichier" << endl;
 	cout << "7. Sortir" << endl;
 
 	int action;
@@ -981,6 +981,21 @@ static void Menu(ListeTrajets & catalogue)
 			//stopper l'exécution
 			return;
 			break;
+<<<<<<< HEAD
+=======
+		}
+		}
+		cout << "Veuillez choisir une option: " << endl;
+		cout << "1. Charger des trajets depuis un fichier " << endl;
+		cout << "2. Ajouter Trajet Simple " << endl;
+		cout << "3. Ajouter Trajet Compose " << endl;
+		cout << "4. Afficher le catalogue des trajets " << endl;
+		cout << "5. Rechercher un parcours " << endl;
+		cout << "6. Sauvegarder des trajets dans un fichier" << endl;
+		cout << "7. Sortir" << endl;
+		cin >> action;
+	} //----- Fin de Menu
+>>>>>>> branch 'master' of https://github.com/Cioccoffee/POO_TP_3
 
 		}
 		}
