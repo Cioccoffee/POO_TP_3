@@ -851,11 +851,13 @@ static void Menu(ListeTrajets & catalogue)
 // Algorithme :
 		{
 	cout << "Veuillez choisir une option: " << endl;
-	cout << "1. Ajouter Trajet Simple " << endl;
-	cout << "2. Ajouter Trajet Compose " << endl;
-	cout << "3. Afficher le catalogue des trajets " << endl;
-	cout << "4. Rechercher un parcours " << endl;
-	cout << "5. Sortir" << endl;
+	cout << "1. Charger des trajets depuis un fichier " << endl;
+	cout << "2. Ajouter Trajet Simple " << endl;
+	cout << "3. Ajouter Trajet Compose " << endl;
+	cout << "4. Afficher le catalogue des trajets " << endl;
+	cout << "5. Rechercher un parcours " << endl;
+	cout << "6. Sauvegarder des trajets dans un fichier" << endl;
+	cout << "7. Sortir" << endl;
 
 	int action;
 	cin >> action;
@@ -973,7 +975,7 @@ static void Menu(ListeTrajets & catalogue)
 			break;
 		}
 		}
-		cout << "Choisissez une option: " << endl;
+		cout << "Veuillez choisir une option: " << endl;
 		cout << "1. Charger des trajets depuis un fichier " << endl;
 		cout << "2. Ajouter Trajet Simple " << endl;
 		cout << "3. Ajouter Trajet Compose " << endl;
