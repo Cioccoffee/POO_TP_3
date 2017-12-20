@@ -130,7 +130,7 @@ static void readTS(ListeTrajets & catalogue, stringstream& ss) {
 	}
 	ss >> transport;
 	ss >> word;
-	while (word != ";") {
+	while (word != "-") {
 		transport += word;
 		ss >> word;
 	}
@@ -170,7 +170,6 @@ static void readTC(ListeTrajets & catalogue, stringstream& ss) {
 				new TrajetSimple(depart.c_str(), arrivee.c_str(),
 						transport.c_str()));
 
-		//strcpy(depart, arrivee);
 		depart = arrivee; //copie en profondeur
 
 	}
@@ -195,7 +194,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 		//is.getline(ligne); sur une seule ligne now
 		//on skip les deux lignes de metadata
 		getline(is, ligne);
-		while (ligne != "") {
+		while (ligne != "fin") {
 			getline(is, ligne);
 			stringstream ss(ligne);
 			ss >> type;
@@ -214,7 +213,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 		if (nb != 0) {
 			getline(is, ligne); //prepare while
 
-			while (ligne != "") {
+			while (ligne != "fin") {
 				getline(is, ligne);
 				stringstream ss(ligne);
 				ss >> type;
@@ -234,7 +233,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 		ss >> nb;
 		if (nb != 0) {
 
-			while (ligne != "") {
+			while (ligne != "fin") {
 				getline(is, ligne);
 				stringstream ss(ligne);
 				ss >> type;
@@ -286,7 +285,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 		}
 		}
 		getline(is, ligne);
-		while (ligne != "") {
+		while (ligne != "fin") {
 
 			stringstream ss(ligne);
 			ss >> type;
@@ -319,9 +318,32 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 						catalogue.Ajouter(
 								new TrajetSimple(depart.c_str(),
 										arrivee.c_str(), transport.c_str()));
+
 					} else if (type == "TC") {
-						//completer
-						readTC(catalogue, ss);
+						ListeTrajets * lt;
+						while (word != "-") {
+							ss >> arrivee;
+							ss >> word;
+							while (word != ";") {
+								arrivee += word;
+								ss >> word;
+							}
+							ss >> transport;
+							ss >> word;
+							while (word != "" && word != ";" && word != "-") {
+								transport += word;
+								ss >> word;
+							}
+							lt->Ajouter(
+									new TrajetSimple(depart.c_str(),
+											arrivee.c_str(),
+											transport.c_str()));
+
+							depart = arrivee; //copie en profondeur
+
+						}
+
+						catalogue.Ajouter(new TrajetCompose(lt));
 
 					}
 					getline(is, ligne);
@@ -420,7 +442,6 @@ static void load(ListeTrajets & catalogue) {
 	cout << "3. Charger uniquement les Trajets Composes " << endl;
 	cout << "4. Charger un trajet en fonction du départ et/ou de l'arrivée "
 			<< endl;
-//si ya pas de trajet qui correspond, printer que on a a pas trouvé "aucun trajet ne correspond à votre demande"
 	cout << "5. Charger seulement une sélection de trajets " << endl;
 	cout << "6. Sortir" << endl;
 
@@ -428,7 +449,7 @@ static void load(ListeTrajets & catalogue) {
 	int action;
 	cin >> action;
 
-	while (action != 6)
+	while (action != 6) {
 
 		switch (action) {
 		case 1: {
@@ -458,6 +479,16 @@ static void load(ListeTrajets & catalogue) {
 		}
 
 		}
+		cout << "Veuillez choisir une option: " << endl;
+		cout << "1. Charger tous les trajets " << endl;
+		cout << "2. Charger uniquement les Trajets Simples " << endl;
+		cout << "3. Charger uniquement les Trajets Composes " << endl;
+		cout << "4. Charger un trajet en fonction du départ et/ou de l'arrivée "
+				<< endl;
+		cout << "5. Charger seulement une sélection de trajets " << endl;
+		cout << "6. Sortir" << endl;
+
+	}
 }
 
 static void readAllCatalogue(ListeTrajets & catalogue, ofstream &os, int & nbTS,
@@ -473,7 +504,7 @@ static void readAllCatalogue(ListeTrajets & catalogue, ofstream &os, int & nbTS,
 			const char * arrivee = catalogue.getTrajet(i)->Arrivee();
 			const char * transport = catalogue.getTrajet(i)->Transport();
 			os << type << " " << depart << " ; " << arrivee << " ; "
-					<< transport << "\n";
+					<< transport << " - " << "\n";
 
 		} else {
 
@@ -497,7 +528,7 @@ static void readAllCatalogue(ListeTrajets & catalogue, ofstream &os, int & nbTS,
 				if (actuelle->suivant != NULL)
 					actuelle = actuelle->suivant;
 			}
-			os << "\n";
+			os << " -" << "\n";
 		}
 	}
 
@@ -516,7 +547,7 @@ static void readTSCatalogue(ListeTrajets & catalogue, ofstream &os, int &nbTS) {
 			const char * transport = catalogue.getTrajet(i)->Transport();
 
 			os << type << " " << depart << " ; " << arrivee << " ; "
-					<< transport << "\n";
+					<< transport << " - " << "\n";
 
 		}
 	}
@@ -548,7 +579,7 @@ static void readTCCatalogue(ListeTrajets & catalogue, ofstream &os, int &nbTC) {
 				if (actuelle->suivant != NULL)
 					actuelle = actuelle->suivant;
 			}
-			os << "\n";
+			os << " - " << "\n";
 		}
 	}
 }
@@ -568,7 +599,7 @@ static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
 					const char * transport =
 							catalogue.getTrajet(i)->Transport();
 					os << type << " " << depart << " ; " << arrivee << " ; "
-							<< transport << "\n";
+							<< transport << " - " << "\n";
 				} else {
 					nbTC++;
 					string type = catalogue.getTrajet(i)->Type();
@@ -590,7 +621,7 @@ static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
 						if (actuelle->suivant != NULL)
 							actuelle = actuelle->suivant;
 					}
-					os << "\n";
+					os << " - " << "\n";
 
 				}
 
@@ -609,7 +640,7 @@ static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
 					const char * transport =
 							catalogue.getTrajet(i)->Transport();
 					os << type << " " << depart << " ; " << arrivee << " ; "
-							<< transport << "\n";
+							<< transport << " - " << "\n";
 				} else {
 					nbTC++;
 					string type = catalogue.getTrajet(i)->Type();
@@ -631,7 +662,7 @@ static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
 						if (actuelle->suivant != NULL)
 							actuelle = actuelle->suivant;
 					}
-					os << "\n";
+					os << " - " << "\n";
 
 				}
 
@@ -649,7 +680,7 @@ static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
 					const char * transport =
 							catalogue.getTrajet(i)->Transport();
 					os << type << " " << depart << " ; " << arrivee << " ; "
-							<< transport << "\n";
+							<< transport << " - " << "\n";
 				} else {
 					nbTC++;
 					string type = catalogue.getTrajet(i)->Type();
@@ -671,7 +702,7 @@ static void readVilleCatalogue(ListeTrajets & catalogue, string dep, string arr,
 						if (actuelle->suivant != NULL)
 							actuelle = actuelle->suivant;
 					}
-					os << "\n";
+					os << " - " << "\n";
 
 				}
 
@@ -696,7 +727,7 @@ static void readIntervalleCatalogue(ListeTrajets & catalogue, unsigned int n,
 				const char * arrivee = catalogue.getTrajet(i)->Arrivee();
 				const char * transport = catalogue.getTrajet(i)->Transport();
 				os << type << " " << depart << " ; " << arrivee << " ; "
-						<< transport << "\n";
+						<< transport << " - " << "\n";
 
 			} else {
 
@@ -720,7 +751,7 @@ static void readIntervalleCatalogue(ListeTrajets & catalogue, unsigned int n,
 					if (actuelle->suivant != NULL)
 						actuelle = actuelle->suivant;
 				}
-				os << "\n";
+				os << " - " << "\n";
 			}
 		}
 	}
