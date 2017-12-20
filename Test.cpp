@@ -264,12 +264,14 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 					<< "Quelle doit �tre la ville de d�part des trajets � s�lectionner ?"
 					<< endl;
 			cin >> wanted_dep;
+			break;
 		}
 		case 'A' /*or 'a'*/: {
 			cout
 					<< "Quelle doit �tre la ville d'arriv�e des trajets � s�lectionner ?"
 					<< endl;
 			cin >> wanted_arr;
+			break;
 		}
 		case 'B' /*or 'b'*/: {
 			cout
@@ -280,11 +282,12 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 					<< "Quelle doit �tre la ville d'arriv�e des trajets � s�lectionner ?"
 					<< endl;
 			cin >> wanted_arr;
+			break;
 		}
 		}
 		getline(is, ligne);
 		while (ligne != "") {
-
+			cout << "in while" << endl;
 			stringstream ss(ligne);
 			ss >> type;
 			ss >> depart;
@@ -402,9 +405,7 @@ if (filename == "exit")
 //check if exists
 is.open(filename);
 while (!is.is_open()) {
-	//demander si souhaite ou mettre une option de sortie
-	cout
-			<< "Le fichier n'a pas pu être ouvert, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): "
+	cout	<< "Le fichier n'a pas pu être ouvert, veuillez saisir à nouveau le nom du fichier à charger (ou \"exit\" pour sortir): "
 			<< endl;
 	cin >> filename;
 	if (filename == "exit")
@@ -425,7 +426,7 @@ cout << "6. Sortir" << endl;
 int action;
 cin >> action;
 
-while (action != 6)
+while (action != 6){
 
 	switch (action) {
 	case 1: {
@@ -453,6 +454,17 @@ while (action != 6)
 		readFile(catalogue, "intervalle", is);
 		break;
 	}
+	}
+	cout << "Veuillez choisir une option: " << endl;
+	cout << "1. Charger tous les trajets " << endl;
+	cout << "2. Charger uniquement les Trajets Simples " << endl;
+	cout << "3. Charger uniquement les Trajets Composes " << endl;
+	cout << "4. Charger un trajet en fonction du départ et/ou de l'arrivée "
+			<< endl;
+	cout << "5. Charger seulement une sélection de trajets " << endl;
+	cout << "6. Sortir" << endl;
+
+	cin >> action;
 
 	}
 }
@@ -728,12 +740,12 @@ ofstream os;
 //	unsigned int nbTS = 0;
 //	unsigned int nbTC = 0;
 
-TrajetSimple *ts1 = new TrajetSimple("ty", "B", "MT");
-Trajet * ts2 = new TrajetSimple("B", "C", "MT2");
-TrajetSimple *ts3 = new TrajetSimple("ty", "C", "MT3");
-TrajetSimple *ts4 = new TrajetSimple("C", "K", "MT4");
-TrajetSimple *ts5 = new TrajetSimple("C", "E", "MT5");
-TrajetSimple *ts6 = new TrajetSimple("E", "K", "MT6");
+	TrajetSimple *ts1 = new TrajetSimple("ty", "B", "MT");
+	Trajet * ts2 = new TrajetSimple("B", "C", "MT2");
+	TrajetSimple *ts3 = new TrajetSimple("ty", "C", "MT3");
+	TrajetSimple *ts4 = new TrajetSimple("C", "K", "MT4");
+	TrajetSimple *ts5 = new TrajetSimple("C", "E", "MT5");
+	TrajetSimple *ts6 = new TrajetSimple("E", "K", "MT6");
 
 ListeTrajets * lt2 = new ListeTrajets;
 lt2->Ajouter(ts1);
@@ -766,13 +778,13 @@ while (choixFichier) {
 	cin.clear();
 	//demander le nom du fichier
 	cout
-			<< "Veuillez saisir le nom du fichier à charger ou \"exit\" pour sortir: "
+			<< "Veuillez saisir le nom du fichier dans lequel vous souhaitez enregistrer ou \"exit\" pour sortir: "
 			<< endl;
 	string filename;
 	cin >> filename;
 
 	cout << filename << endl;
-	if (filename == "exit" || filename == "exit ") {
+	if (filename == "exit") {
 		choixFichier = false;
 		return;
 		break;
@@ -789,7 +801,7 @@ while (choixFichier) {
 			choixFichier = false;
 		} else {
 			cout
-					<< "Ce fichier existe déjà. Choisissez une des option suivantes: "
+					<< "Ce fichier existe déjà. Choisissez une des options suivantes: "
 					<< endl;
 			cout
 					<< "1. Ecrire dans ce fichier, en ecrasant le contenu précédent"
