@@ -374,7 +374,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 		ss >> nbT;
 		ss >> a;
 		nbT += a;
-		while (n < 0 || m < 0 || n < m || n > nbT) {
+		while (n < 0 || m < 0 || n < m || m > nbT) {
 			cout
 					<< "Le format des indices donnés ne permet pas de constiruer un intervalle valable"
 					<< endl;

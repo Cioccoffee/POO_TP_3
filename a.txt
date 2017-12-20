@@ -1,0 +1,8 @@
+2 3
+TS Lyon ; Bordeaux ; train -
+TC Lyon ; Bordeaux ; Marrakech ; avion ; Bordeaux ; ferry -
+TS Epinal ; Grenoble ; train -
+TC Lyon ; Rouen ; Clermont Ferrand ; train ; Paris ; train ; Rouen ; train -
+TC Tours ; Blois ; Bourges ; intercites ; Blois ; intercites -
+fin
+
