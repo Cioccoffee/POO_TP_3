@@ -119,19 +119,19 @@ static void readTS(ListeTrajets & catalogue, stringstream& ss) {
 	ss >> depart;
 	ss >> word;
 	while (word != ";") {
-		depart += word;
+		depart += " "+ word;
 		ss >> word;
 	}
 	ss >> arrivee;
 	ss >> word;
 	while (word != ";") {
-		arrivee += word;
+		arrivee += " "+ word;
 		ss >> word;
 	}
 	ss >> transport;
 	ss >> word;
 	while (word != "-") {
-		transport += word;
+		transport += " "+ word;
 		ss >> word;
 	}
 	catalogue.Ajouter(
@@ -148,7 +148,7 @@ static void readTC(ListeTrajets & catalogue, stringstream& ss) {
 	ss >> depart;
 	ss >> word;
 	while (word != ";") {
-		depart += word;
+		depart += " "+ word;
 		ss >> word;
 	}
 	ss >> word;
@@ -157,13 +157,13 @@ static void readTC(ListeTrajets & catalogue, stringstream& ss) {
 		ss >> arrivee;
 		ss >> word;
 		while (word != ";") {
-			arrivee += word;
+			arrivee += " "+ word;
 			ss >> word;
 		}
 		ss >> transport;
 		ss >> word;
 		while (word != "" && word != ";" && word != "-") {
-			transport += word;
+			transport += " "+ word;
 			ss >> word;
 		}
 		lt->Ajouter(
@@ -191,11 +191,11 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 	//int nbTC;
 	if (choice == "all") {
 		getline(is, ligne);
-		//is.getline(ligne); sur une seule ligne now
-		//on skip les deux lignes de metadata
+		//on skip la ligne de metadata
 		getline(is, ligne);
+
 		while (ligne != "fin") {
-			getline(is, ligne);
+
 			stringstream ss(ligne);
 			ss >> type;
 			if (type == "TS") {
@@ -203,7 +203,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 			} else if (type == "TC") {
 				readTC(catalogue, ss);
 			}
-
+			getline(is, ligne);
 		}
 
 	} else if (choice == "TS") {
@@ -214,33 +214,32 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 			getline(is, ligne); //prepare while
 
 			while (ligne != "fin") {
-				getline(is, ligne);
+
 				stringstream ss(ligne);
 				ss >> type;
 				if (type == "TS") {
 					readTS(catalogue, ss);
 				}
-
+				getline(is, ligne);
 			}
 		}
 
 	}
 	if (choice == "TC") {
 		getline(is, ligne);
-		//getline(is,ligne);
 		stringstream ss(ligne);
 		ss >> nb;
 		ss >> nb;
 		if (nb != 0) {
-
+			getline(is, ligne);
 			while (ligne != "fin") {
-				getline(is, ligne);
+
 				stringstream ss(ligne);
 				ss >> type;
 				if (type == "TC") {
 					readTC(catalogue, ss);
 				}
-
+				getline(is, ligne);
 			}
 		}
 
@@ -284,6 +283,7 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 			break;
 		}
 		}
+		getline(is, ligne); //skip metadat
 		getline(is, ligne);
 		while (ligne != "fin") {
 
@@ -292,27 +292,29 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 			ss >> depart;
 			ss >> word;
 			while (word != ";") {
-				depart += word;
+				depart += " "+ word;
 				ss >> word;
 			}
+
 			if (wanted_dep == ""
 					|| (wanted_dep != "" && depart == wanted_dep)) {
 
 				ss >> arrivee;
 				ss >> word; //read next for while
 				while (word != ";") {
-					arrivee += word;
+					arrivee += " "+ word;
 					ss >> word;
 				}
 				if (wanted_arr == ""
-						|| (wanted_arr != "" && arrivee != wanted_arr)) {
+						|| (wanted_arr != "" && arrivee == wanted_arr)) {
 					//if reached here, means we're in the right conditions
+
 
 					if (type == "TS") {
 						ss >> transport;
 						ss >> word;
-						while (word != ";") {
-							transport += word;
+						while (word != "-") {
+							transport += " "+ word;
 							ss >> word;
 						}
 						catalogue.Ajouter(
@@ -320,20 +322,21 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 										arrivee.c_str(), transport.c_str()));
 
 					} else if (type == "TC") {
-						ListeTrajets * lt;
+						ListeTrajets * lt = new ListeTrajets();
 						while (word != "-") {
 							ss >> arrivee;
 							ss >> word;
 							while (word != ";") {
-								arrivee += word;
+								arrivee += " "+ word;
 								ss >> word;
 							}
 							ss >> transport;
 							ss >> word;
 							while (word != "" && word != ";" && word != "-") {
-								transport += word;
+								transport += " "+ word;
 								ss >> word;
 							}
+
 							lt->Ajouter(
 									new TrajetSimple(depart.c_str(),
 											arrivee.c_str(),
@@ -345,10 +348,12 @@ static void readFile(ListeTrajets & catalogue, string choice, ifstream & is) {
 
 						catalogue.Ajouter(new TrajetCompose(lt));
 
+
 					}
-					getline(is, ligne);
+
 				}
 			}
+			getline(is, ligne);
 		}
 
 	}
@@ -479,6 +484,8 @@ static void load(ListeTrajets & catalogue) {
 		}
 
 		}
+		//cout << "etat actuel du catalogue" << endl;
+		catalogue.Afficher();
 		cout << "Veuillez choisir une option: " << endl;
 		cout << "1. Charger tous les trajets " << endl;
 		cout << "2. Charger uniquement les Trajets Simples " << endl;
