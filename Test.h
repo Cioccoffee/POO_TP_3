@@ -73,7 +73,7 @@ static void readTC(ListeTrajets & catalogue, stringstream& ss);
 // Contrat :
 //
 
-static void read(ListeTrajets & catalogue);
+//static void read(ListeTrajets & catalogue);
 // Mode d'emploi :
 //
 //
@@ -93,6 +93,8 @@ static void save(ListeTrajets & catalogue);
 //
 // Contrat :
 //
+
+static void testReadTS();
 
 int main();
 // Mode d'emploi :
